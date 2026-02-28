@@ -3,7 +3,7 @@ import { Category, EventOfCategory } from '../entities/category.entity';
 import { Player } from 'src/player/entities/Player.entitie';
 import { SchemaTypes } from 'mongoose';
 
-export type PlayerDocument = CategorySchemaDb & Document;
+export type CategoryDocument = CategorySchemaDb & Document;
 
 @Schema({ timestamps: true })
 export class CategorySchemaDb implements Category {
