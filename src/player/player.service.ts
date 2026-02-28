@@ -5,8 +5,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PlayerRepository } from './repository/player.repository';
-import { CreatePlayerDto } from './dtos/createPlayer.dto';
-import { UpdatePlayerDto } from './dtos/updatePlayer.dto';
+import { CreatePlayerDto } from './dtos/create-player.dto';
+import { UpdatePlayerDto } from './dtos/update-player.dto';
 import { Player } from './entities/Player.entitie';
 
 @Injectable()
