@@ -1,0 +1,38 @@
+@baseUrl = http://localhost:3000/api/v1/
+
+### Player
+
+# @name PlayerGetAll
+GET {{baseUrl}}player
+?limit=10
+&offset=0
+
+###
+# @name PlayerGetOne
+GET {{baseUrl}}player/69a1a9189fda1c56f912a828d
+
+###
+# @name PlayerPost
+POST {{baseUrl}}player
+Content-Type: application/json
+
+{
+  "name": "Test2",
+  "email": "test@gmail.com",
+  "tell": "949734857234",
+  "ranking": "A",
+  "positionRanking": 1,
+  "pictureUrl": "http://localhost:3000/picture/3"
+}
+
+###
+# @name PlayerPatch
+PATCH  {{baseUrl}}player/69a1b7ebe38a2c3bfabd7999
+Content-Type: application/json
+
+{
+  "name": "test updated"
+}
+###
+# @name PlayerDelete
+DELETE  {{baseUrl}}player/69a1b7ebe38a2c3bfabd7999
