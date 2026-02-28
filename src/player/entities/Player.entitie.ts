@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface Player {
+export class Player {
   _id?: Types.ObjectId;
   tell: string;
   email: string;
