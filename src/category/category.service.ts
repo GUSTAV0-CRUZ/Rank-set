@@ -7,12 +7,13 @@ import {
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryRepository } from './repository/category.repository';
+import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
   constructor(private readonly categoryRepository: CategoryRepository) {}
 
-  async create(createCategoryDto: CreateCategoryDto) {
+  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     try {
       const category = await this.categoryRepository.create(createCategoryDto);
 
@@ -31,11 +32,11 @@ export class CategoryService {
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<Category[]> {
     return await this.categoryRepository.findAll();
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Category> {
     try {
       const category = await this.categoryRepository.findOneId(id);
 
@@ -53,7 +54,10 @@ export class CategoryService {
     }
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+  async update(
+    id: string,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<Category> {
     try {
       const updatedCategory = await this.categoryRepository.update(
         id,
@@ -71,7 +75,7 @@ export class CategoryService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<Category> {
     try {
       const deletedCategory = await this.categoryRepository.delete(id);
       if (!deletedCategory) throw new BadRequestException('Category not found');
