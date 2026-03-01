@@ -13,11 +13,11 @@ export class CategoryRepository {
   ) {}
 
   findAll() {
-    return this.categoryModel.find().populate('Player').exec();
+    return this.categoryModel.find().populate('players').exec();
   }
 
   findOneId(id: string) {
-    return this.categoryModel.findById(id).populate('Player').exec();
+    return this.categoryModel.findById(id).populate('players').exec();
   }
 
   create(createCategoryDto: CreateCategoryDto) {
