@@ -91,4 +91,4 @@ Content-Type: application/json
 }
 ###
 # @name CategoryDelete
-DELETE  {{baseUrl}}category/69a1b7ebe38a2c3bfabd7999
+DELETE  {{baseUrl}}category/69a45d44f8f5fdc6cefa39db

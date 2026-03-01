@@ -14,9 +14,9 @@ export class CategoryService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     try {
-      const player = await this.categoryRepository.create(createCategoryDto);
+      const category = await this.categoryRepository.create(createCategoryDto);
 
-      return player;
+      return category;
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const erroFildRequired: string | undefined = error?.message?.split(
@@ -60,8 +60,7 @@ export class CategoryService {
         updateCategoryDto,
       );
 
-      if (!updatedCategory)
-        throw new BadRequestException('Error to updated category');
+      if (!updatedCategory) throw new BadRequestException('Category not found');
 
       return updatedCategory;
     } catch (error) {
@@ -72,7 +71,16 @@ export class CategoryService {
     }
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} category`;
+  async remove(id: string) {
+    try {
+      const deletedCategory = await this.categoryRepository.delete(id);
+      if (!deletedCategory) throw new BadRequestException('Category not found');
+      return deletedCategory;
+    } catch (error) {
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      throw new BadRequestException(error.message);
+    }
   }
 }
