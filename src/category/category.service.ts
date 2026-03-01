@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryRepository } from './repository/category.repository';
@@ -27,12 +31,26 @@ export class CategoryService {
     }
   }
 
-  findAll() {
-    return this.categoryRepository.findAll();
+  async findAll() {
+    return await this.categoryRepository.findAll();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} category`;
+  async findOne(id: string) {
+    try {
+      const category = await this.categoryRepository.findOneId(id);
+
+      if (!category) throw new NotFoundException();
+
+      return category;
+    } catch (error) {
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      if (error.status === 404)
+        throw new NotFoundException('Category not found');
+
+      throw new BadRequestException(error.message);
+    }
   }
 
   update(id: string, updateCategoryDto: UpdateCategoryDto) {
