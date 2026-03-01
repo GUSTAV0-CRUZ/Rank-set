@@ -5,6 +5,22 @@ import { SchemaTypes } from 'mongoose';
 
 export type CategoryDocument = CategorySchemaDb & Document;
 
+@Schema({ _id: false })
+class EventOfCategorySubSchema implements EventOfCategory {
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ type: Number, required: true })
+  value: number;
+
+  @Prop({ required: true })
+  operation: string;
+}
+
+const EventOfCategorySchema = SchemaFactory.createForClass(
+  EventOfCategorySubSchema,
+);
+
 @Schema({ timestamps: true })
 export class CategorySchemaDb implements Category {
   @Prop({ required: true, unique: true })
@@ -13,6 +29,7 @@ export class CategorySchemaDb implements Category {
   @Prop({ required: true })
   descripion: string;
 
+  @Prop({ type: [{ type: EventOfCategorySchema, default: [] }] })
   events: EventOfCategory[];
 
   @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'Player' }] })
