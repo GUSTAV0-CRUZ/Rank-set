@@ -161,10 +161,10 @@ describe('PlayerService', () => {
       });
     });
 
-    it('Should return the error "Error to updated player"', async () => {
+    it('Should return the error "Player not found"', async () => {
       jest.spyOn(playerRepository, 'update').mockResolvedValue(null);
       await expect(playerService.update('', {} as any)).rejects.toThrow(
-        'Error to updated player',
+        'Player not found',
       );
     });
 
@@ -204,7 +204,7 @@ describe('PlayerService', () => {
     it('Should return the error "Error to delete player"', async () => {
       jest.spyOn(playerRepository, 'delete').mockResolvedValue(null);
       await expect(playerService.delete('')).rejects.toThrow(
-        'Error to deleted player',
+        'Player not found',
       );
     });
 

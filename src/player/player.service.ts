@@ -56,8 +56,7 @@ export class PlayerService {
         updatePlayerDto,
       );
 
-      if (!updatedPlayer)
-        throw new BadRequestException('Error to updated player');
+      if (!updatedPlayer) throw new BadRequestException('Player not found');
 
       return updatedPlayer;
     } catch (error) {
@@ -71,8 +70,7 @@ export class PlayerService {
   async delete(id: string): Promise<Player> {
     try {
       const deletedPlayer = await this.playerRepository.delete(id);
-      if (!deletedPlayer)
-        throw new BadRequestException('Error to deleted player');
+      if (!deletedPlayer) throw new BadRequestException('Player not found');
       return deletedPlayer;
     } catch (error) {
       if (error.path === '_id')
