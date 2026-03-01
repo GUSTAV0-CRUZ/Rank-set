@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ###
 # @name PlayerPatch
-PATCH  {{baseUrl}}player/69a1b7ebe38a2c3bfabd7999
+PATCH  {{baseUrl}}player/69a45f627629b7556f0d5ed6
 Content-Type: application/json
 
 {
@@ -36,3 +36,59 @@ Content-Type: application/json
 ###
 # @name PlayerDelete
 DELETE  {{baseUrl}}player/69a1b7ebe38a2c3bfabd7999
+
+
+
+### Category
+
+# @name CategoryGetAll
+GET {{baseUrl}}category
+?limit=10
+&offset=0
+
+###
+# @name CategoryGetOne
+GET {{baseUrl}}category/69a45d44f8f5fdc6cefa39db
+
+###
+# @name CategoryPost
+POST {{baseUrl}}category
+Content-Type: application/json
+
+{
+  "name": "Category Test",
+  "descripion": "Medium category",
+  "events": [
+    {
+      "name": "Event one",
+      "operation": "any operation",
+      "value": 50
+    },
+    {
+      "name": "Event two",
+      "operation": "any operation",
+      "value": 25
+    }
+  ]
+
+}
+
+###
+# @name CategoryPatch
+PATCH  {{baseUrl}}category/69a45d44f8f5fdc6cefa39db
+Content-Type: application/json
+
+{
+  "name": "Category update name",
+  "players": ["69a1a8f29fda1c56f912a825", "69a45f627629b7556f0d5ed6", "69a45d44f8f5fdc6cefa39db"],
+  "events": [
+    {
+      "name": "tree",
+      "operation": "any operation",
+      "value": 50
+    }
+  ]
+}
+###
+# @name CategoryDelete
+DELETE  {{baseUrl}}category/69a1b7ebe38a2c3bfabd7999

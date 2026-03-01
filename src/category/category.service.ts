@@ -53,8 +53,23 @@ export class CategoryService {
     }
   }
 
-  update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} ${updateCategoryDto.name} category`;
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    try {
+      const updatedCategory = await this.categoryRepository.update(
+        id,
+        updateCategoryDto,
+      );
+
+      if (!updatedCategory)
+        throw new BadRequestException('Error to updated category');
+
+      return updatedCategory;
+    } catch (error) {
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      throw new BadRequestException(error.message);
+    }
   }
 
   remove(id: string) {
