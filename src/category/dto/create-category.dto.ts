@@ -1,5 +1,4 @@
 import {
-  ArrayMinSize,
   IsArray,
   IsNotEmpty,
   IsOptional,
@@ -23,6 +22,5 @@ export class CreateCategoryDto {
 
   @IsOptional()
   @IsArray()
-  @ArrayMinSize(1)
   events: EventOfCategory[];
 }
