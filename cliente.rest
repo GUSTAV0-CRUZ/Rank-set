@@ -75,7 +75,7 @@ Content-Type: application/json
 
 ###
 # @name CategoryPatch
-PATCH  {{baseUrl}}category/69a49b34c1b95f623aeb8a5f
+PATCH  {{baseUrl}}category/69a4ad42b92a12b2b93c4f56
 Content-Type: application/json
 
 {
@@ -91,7 +91,8 @@ Content-Type: application/json
   ],
   "removeEvents": [
     {
-      "name": "Event two"
+      "name": "Event one",
+      "operation": "any operation"
     }
   ]
 }

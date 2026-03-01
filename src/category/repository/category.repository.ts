@@ -42,7 +42,12 @@ export class CategoryRepository {
             $set: { name, description },
             $pull: {
               players: { $in: removePlayers ?? [] },
-              events: { name: { $in: removeEvents.map(event => event.name) } },
+              events: {
+                name: { $in: removeEvents?.map(event => event.name) ?? [] },
+                operation: {
+                  $in: removeEvents?.map(event => event.operation) ?? [],
+                },
+              },
             },
           },
         },

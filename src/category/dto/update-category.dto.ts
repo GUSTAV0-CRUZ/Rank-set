@@ -1,8 +1,14 @@
-import { ArrayMinSize, IsArray, IsMongoId, IsOptional } from 'class-validator';
+import {
+  IsArray,
+  IsMongoId,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 import { CreateCategoryDto } from './create-category.dto';
 import { PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { EventOfCategory } from '../entities/category.entity';
+import { RemoveEventDto } from './remove-event.dto';
+import { AddEventDto } from './add-event.dto';
 
 export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
   @IsOptional()
@@ -17,11 +23,13 @@ export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
 
   @IsOptional()
   @IsArray()
-  @ArrayMinSize(1)
-  addEvents: EventOfCategory[];
+  @ValidateNested({ each: true })
+  @Type(() => AddEventDto)
+  addEvents: AddEventDto[];
 
   @IsOptional()
   @IsArray()
-  @Type(() => Array)
-  removeEvents: EventOfCategory[];
+  @ValidateNested({ each: true })
+  @Type(() => RemoveEventDto)
+  removeEvents: RemoveEventDto[];
 }
