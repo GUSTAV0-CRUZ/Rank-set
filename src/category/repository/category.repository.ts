@@ -25,8 +25,14 @@ export class CategoryRepository {
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    const { name, addPlayers, description, events, removePlayers } =
-      updateCategoryDto;
+    const {
+      name,
+      addPlayers,
+      description,
+      removePlayers,
+      addEvents,
+      removeEvents,
+    } = updateCategoryDto;
 
     const operations = [
       {
@@ -34,7 +40,10 @@ export class CategoryRepository {
           filter: { _id: id },
           update: {
             $set: { name, description },
-            $pull: { players: { $in: removePlayers ?? [] } },
+            $pull: {
+              players: { $in: removePlayers ?? [] },
+              events: { name: { $in: removeEvents.map(event => event.name) } },
+            },
           },
         },
       },
@@ -44,7 +53,7 @@ export class CategoryRepository {
           update: {
             $addToSet: {
               players: { $each: addPlayers ?? [] },
-              events: { $each: events ?? [] },
+              events: { $each: addEvents ?? [] },
             },
           },
         },

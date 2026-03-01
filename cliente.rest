@@ -75,18 +75,23 @@ Content-Type: application/json
 
 ###
 # @name CategoryPatch
-PATCH  {{baseUrl}}category/69a47c9301e1478450885c7f
+PATCH  {{baseUrl}}category/69a49b34c1b95f623aeb8a5f
 Content-Type: application/json
 
 {
   "name": "Category update name",
-  "addPlayers": ["69a1a8f29fda1c56f912a825", "69a45f627629b7556f0d5ed6", "69a45d44f8f5fdc6cefa39db"],
+  "addPlayers": ["69a1a8f29fda1c56f912a825", "69a45d44f8f5fdc6cefa39db"],
   "removePlayers": ["69a45f627629b7556f0d5ed6"],
-  "events": [
+  "addEvents": [
     {
-      "name": "tree",
+      "name": "Event four",
       "operation": "any operation",
-      "value": 50
+      "value": 100
+    }
+  ],
+  "removeEvents": [
+    {
+      "name": "Event two"
     }
   ]
 }
