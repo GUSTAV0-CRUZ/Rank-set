@@ -25,7 +25,21 @@ export class CategoryRepository {
   }
 
   update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return this.categoryModel.findByIdAndUpdate(id, updateCategoryDto).exec();
+    const { name, players, descripion, events } = updateCategoryDto;
+
+    return this.categoryModel
+      .findOneAndUpdate(
+        { _id: id },
+        {
+          $set: { name, descripion },
+          $addToSet: {
+            players: { $each: players ?? [] },
+            events: { $each: events ?? [] },
+          },
+        },
+        { returnDocument: 'after' },
+      )
+      .exec();
   }
 
   delete(id: string) {
