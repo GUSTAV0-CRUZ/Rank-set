@@ -27,7 +27,7 @@ export class CategorySchemaDb implements Category {
   name: string;
 
   @Prop({ required: true })
-  descripion: string;
+  description: string;
 
   @Prop({ type: [{ type: EventOfCategorySchema, default: [] }] })
   events: EventOfCategory[];

@@ -7,5 +7,10 @@ export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
   @IsOptional()
   @IsMongoId({ each: true })
   @Type(() => Array)
-  players: string[] | string;
+  addPlayers: string[] | string;
+
+  @IsOptional()
+  @IsMongoId({ each: true })
+  @Type(() => Array)
+  removePlayers: string[];
 }

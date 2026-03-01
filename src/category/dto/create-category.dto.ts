@@ -19,7 +19,7 @@ export class CreateCategoryDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  descripion: string;
+  description: string;
 
   @IsOptional()
   @IsArray()

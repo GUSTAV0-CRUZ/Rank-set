@@ -2,7 +2,7 @@ import { Player } from 'src/player/entities/Player.entitie';
 
 export class Category {
   name: string;
-  descripion: string;
+  description: string;
   events: EventOfCategory[];
   players: Player[];
 }

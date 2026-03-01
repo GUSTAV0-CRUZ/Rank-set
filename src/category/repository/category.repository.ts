@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { AnyBulkWriteOperation, Model } from 'mongoose';
 import { CategoryDocument } from '../schemas/category.schema';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
@@ -24,22 +24,37 @@ export class CategoryRepository {
     return this.categoryModel.create(createCategoryDto);
   }
 
-  update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    const { name, players, descripion, events } = updateCategoryDto;
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    const { name, addPlayers, description, events, removePlayers } =
+      updateCategoryDto;
 
-    return this.categoryModel
-      .findOneAndUpdate(
-        { _id: id },
-        {
-          $set: { name, descripion },
-          $addToSet: {
-            players: { $each: players ?? [] },
-            events: { $each: events ?? [] },
+    const operations = [
+      {
+        updateOne: {
+          filter: { _id: id },
+          update: {
+            $set: { name, description },
+            $pull: { players: { $in: removePlayers ?? [] } },
           },
         },
-        { returnDocument: 'after' },
-      )
-      .exec();
+      },
+      {
+        updateOne: {
+          filter: { _id: id },
+          update: {
+            $addToSet: {
+              players: { $each: addPlayers ?? [] },
+              events: { $each: events ?? [] },
+            },
+          },
+        },
+      },
+    ];
+
+    await this.categoryModel.bulkWrite(
+      operations as AnyBulkWriteOperation<CategoryDocument>[],
+    );
+    return this.categoryModel.findById(id).exec();
   }
 
   delete(id: string) {

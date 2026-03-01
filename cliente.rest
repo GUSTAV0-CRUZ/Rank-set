@@ -57,7 +57,7 @@ Content-Type: application/json
 
 {
   "name": "Category Test",
-  "descripion": "Medium category",
+  "description": "Medium category",
   "events": [
     {
       "name": "Event one",
@@ -75,12 +75,13 @@ Content-Type: application/json
 
 ###
 # @name CategoryPatch
-PATCH  {{baseUrl}}category/69a45d44f8f5fdc6cefa39db
+PATCH  {{baseUrl}}category/69a47c9301e1478450885c7f
 Content-Type: application/json
 
 {
   "name": "Category update name",
-  "players": ["69a1a8f29fda1c56f912a825", "69a45f627629b7556f0d5ed6", "69a45d44f8f5fdc6cefa39db"],
+  "addPlayers": ["69a1a8f29fda1c56f912a825", "69a45f627629b7556f0d5ed6", "69a45d44f8f5fdc6cefa39db"],
+  "removePlayers": ["69a45f627629b7556f0d5ed6"],
   "events": [
     {
       "name": "tree",
