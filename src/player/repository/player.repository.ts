@@ -25,7 +25,9 @@ export class PlayerRepository {
   }
 
   update(id: string, updatePlayerDto: UpdatePlayerDto) {
-    return this.playerModel.findByIdAndUpdate(id, updatePlayerDto).exec();
+    return this.playerModel
+      .findByIdAndUpdate(id, updatePlayerDto, { returnDocument: 'after' })
+      .exec();
   }
 
   delete(id: string) {
