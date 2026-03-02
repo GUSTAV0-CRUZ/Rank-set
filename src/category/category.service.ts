@@ -77,7 +77,7 @@ export class CategoryService {
     }
   }
 
-  async remove(id: string): Promise<Category> {
+  async delete(id: string): Promise<Category> {
     try {
       const deletedCategory = await this.categoryRepository.delete(id);
       if (!deletedCategory) throw new BadRequestException('Category not found');
