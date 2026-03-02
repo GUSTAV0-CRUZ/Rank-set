@@ -8,6 +8,8 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CategoryRepository } from './repository/category.repository';
 import { Category } from './entities/category.entity';
+import { AddPlayerDto } from './dto/add-player.dto';
+import { RemovePlayerDto } from './dto/remove-player.dto';
 
 @Injectable()
 export class CategoryService {
@@ -80,6 +82,45 @@ export class CategoryService {
       const deletedCategory = await this.categoryRepository.delete(id);
       if (!deletedCategory) throw new BadRequestException('Category not found');
       return deletedCategory;
+    } catch (error) {
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async addPlayer(id: string, addPlayerDto: AddPlayerDto): Promise<Category> {
+    try {
+      const updatedCategory = await this.categoryRepository.addPlayers(
+        id,
+        addPlayerDto,
+      );
+
+      if (!updatedCategory) throw new BadRequestException('Category not found');
+
+      return updatedCategory;
+    } catch (error) {
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async removePlayer(
+    id: string,
+    removePlayerDto: RemovePlayerDto,
+  ): Promise<Category> {
+    try {
+      const updatedCategory = await this.categoryRepository.removePlayers(
+        id,
+        removePlayerDto,
+      );
+
+      if (!updatedCategory) throw new BadRequestException('Category not found');
+
+      return updatedCategory;
     } catch (error) {
       if (error.path === '_id')
         throw new BadRequestException('Type of id invalid');

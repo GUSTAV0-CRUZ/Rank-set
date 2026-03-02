@@ -75,13 +75,11 @@ Content-Type: application/json
 
 ###
 # @name CategoryPatch
-PATCH  {{baseUrl}}category/69a4ad42b92a12b2b93c4f56
+PATCH  {{baseUrl}}category/69a4e05f0df7930a195985da
 Content-Type: application/json
 
 {
   "name": "Category update name",
-  "addPlayers": ["69a1a8f29fda1c56f912a825", "69a45d44f8f5fdc6cefa39db"],
-  "removePlayers": ["69a45f627629b7556f0d5ed6"],
   "addEvents": [
     {
       "name": "Event four",
@@ -99,3 +97,22 @@ Content-Type: application/json
 ###
 # @name CategoryDelete
 DELETE  {{baseUrl}}category/69a45d44f8f5fdc6cefa39db
+
+###
+# @name AddPlayer
+PATCH  {{baseUrl}}category/69a4e05f0df7930a195985da/addPlayer
+Content-Type: application/json
+
+{
+  "addPlayers": ["69a1a8f29fda1c56f912a825", "69a45d44f8f5fdc6cefa39d1"]
+}
+
+###
+# @name RemovePlayer
+PATCH  {{baseUrl}}category/69a4e05f0df7930a195985da/removePlayer
+Content-Type: application/json
+
+{
+  "removePlayers": ["69a45d44f8f5fdc6cefa39d1"]
+}
+

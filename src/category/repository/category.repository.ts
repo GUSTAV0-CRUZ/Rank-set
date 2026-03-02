@@ -4,6 +4,8 @@ import { AnyBulkWriteOperation, Model } from 'mongoose';
 import { CategoryDocument } from '../schemas/category.schema';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
+import { AddPlayerDto } from '../dto/add-player.dto';
+import { RemovePlayerDto } from '../dto/remove-player.dto';
 
 @Injectable()
 export class CategoryRepository {
@@ -25,14 +27,7 @@ export class CategoryRepository {
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    const {
-      name,
-      addPlayers,
-      description,
-      removePlayers,
-      addEvents,
-      removeEvents,
-    } = updateCategoryDto;
+    const { name, description, addEvents, removeEvents } = updateCategoryDto;
 
     const operations = [
       {
@@ -41,7 +36,6 @@ export class CategoryRepository {
           update: {
             $set: { name, description },
             $pull: {
-              players: { $in: removePlayers ?? [] },
               events: {
                 name: { $in: removeEvents?.map(event => event.name) ?? [] },
                 operation: {
@@ -57,7 +51,6 @@ export class CategoryRepository {
           filter: { _id: id },
           update: {
             $addToSet: {
-              players: { $each: addPlayers ?? [] },
               events: { $each: addEvents ?? [] },
             },
           },
@@ -69,6 +62,24 @@ export class CategoryRepository {
       operations as AnyBulkWriteOperation<CategoryDocument>[],
     );
     return this.categoryModel.findById(id).exec();
+  }
+
+  async addPlayers(id: string, addPlayerDto: AddPlayerDto) {
+    const { addPlayers } = addPlayerDto;
+    return this.categoryModel.findOneAndUpdate(
+      { _id: id },
+      { $addToSet: { players: { $each: addPlayers ?? [] } } },
+      { returnDocument: 'after' },
+    );
+  }
+
+  async removePlayers(id: string, removePlayerDto: RemovePlayerDto) {
+    const { removePlayers } = removePlayerDto;
+    return this.categoryModel.findOneAndUpdate(
+      { _id: id },
+      { $pull: { players: { $in: removePlayers ?? [] } } },
+      { returnDocument: 'after' },
+    );
   }
 
   delete(id: string) {
