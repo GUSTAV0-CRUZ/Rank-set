@@ -90,7 +90,7 @@ export class CategoryService {
     }
   }
 
-  async addPlayer(id: string, addPlayerDto: AddPlayerDto): Promise<Category> {
+  async addPlayers(id: string, addPlayerDto: AddPlayerDto): Promise<Category> {
     try {
       const updatedCategory = await this.categoryRepository.addPlayers(
         id,
@@ -108,7 +108,7 @@ export class CategoryService {
     }
   }
 
-  async removePlayer(
+  async removePlayers(
     id: string,
     removePlayerDto: RemovePlayerDto,
   ): Promise<Category> {

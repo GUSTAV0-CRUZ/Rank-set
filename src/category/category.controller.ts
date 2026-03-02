@@ -42,7 +42,7 @@ export class CategoryController {
 
   @Patch(':id/addPlayer')
   addPlayer(@Param('id') id: string, @Body() addPlayerDto: AddPlayerDto) {
-    return this.categoryService.addPlayer(id, addPlayerDto);
+    return this.categoryService.addPlayers(id, addPlayerDto);
   }
 
   @Patch(':id/removePlayer')
@@ -50,7 +50,7 @@ export class CategoryController {
     @Param('id') id: string,
     @Body() removePlayerDto: RemovePlayerDto,
   ) {
-    return this.categoryService.removePlayer(id, removePlayerDto);
+    return this.categoryService.removePlayers(id, removePlayerDto);
   }
 
   @Delete(':id')
