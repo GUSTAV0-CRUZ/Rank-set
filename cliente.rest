@@ -61,7 +61,6 @@ Content-Type: application/json
   "events": [
     {
       "name": "Event one",
-      "operation": "any operation",
       "value": 50
     },
     {
