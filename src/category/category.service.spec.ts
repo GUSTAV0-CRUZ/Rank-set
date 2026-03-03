@@ -26,6 +26,7 @@ describe('CategoryService', () => {
             delete: jest.fn(),
             addPlayers: jest.fn(),
             removePlayers: jest.fn(),
+            findCategoryContainPlayerId: jest.fn(),
           },
         },
       ],
@@ -102,7 +103,7 @@ describe('CategoryService', () => {
   });
 
   describe('findOne', () => {
-    it('Should return one player', async () => {
+    it('Should return one category', async () => {
       const id = 'uhdcsush324';
       const category = createCategory();
 
@@ -332,6 +333,56 @@ describe('CategoryService', () => {
         .mockRejectedValue(new Error());
       await expect(
         categoryService.removePlayers('', {} as any),
+      ).rejects.toThrow(BadRequestException);
+    });
+  });
+
+  describe('findCategoryContainPlayerId', () => {
+    it('Should return one category', async () => {
+      const id = 'uhdcsush324';
+      const category = createCategory();
+
+      jest
+        .spyOn(categoryRepository, 'findCategoryContainPlayerId')
+        .mockResolvedValue(category as any);
+
+      const result = await categoryService.findCategoryContainPlayerId(id);
+
+      expect(
+        categoryRepository.findCategoryContainPlayerId,
+      ).toHaveBeenCalledWith(id);
+      expect(result).toEqual(category);
+    });
+
+    it('Should return the error "category not found"', async () => {
+      jest
+        .spyOn(categoryRepository, 'findCategoryContainPlayerId')
+        .mockResolvedValue(null);
+      await expect(
+        categoryService.findCategoryContainPlayerId('1a2b3c'),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('Should return the error "Type of id invalid"', async () => {
+      const errorImplementKey = new BadRequestException();
+      errorImplementKey['path'] = '_id';
+
+      jest
+        .spyOn(categoryRepository, 'findCategoryContainPlayerId')
+        .mockImplementationOnce(() => {
+          throw errorImplementKey;
+        });
+      await expect(
+        categoryService.findCategoryContainPlayerId('1a2b3c'),
+      ).rejects.toThrow('Type of id invalid');
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest
+        .spyOn(categoryRepository, 'findCategoryContainPlayerId')
+        .mockRejectedValue(new Error());
+      await expect(
+        categoryService.findCategoryContainPlayerId('1a2b3c'),
       ).rejects.toThrow(BadRequestException);
     });
   });
