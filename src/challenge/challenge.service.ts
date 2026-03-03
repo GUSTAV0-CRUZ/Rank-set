@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
+import { ChallengeRepository } from './repository/challenge.repository';
 
 @Injectable()
 export class ChallengeService {
+  constructor(private readonly challengeRepository: ChallengeRepository) {}
+
   create(createChallengeDto: CreateChallengeDto) {
     return 'This action adds a new challenge';
   }
 
   findAll() {
-    return `This action returns all challenge`;
+    return this.challengeRepository.findAll();
   }
 
   findOne(id: number) {
