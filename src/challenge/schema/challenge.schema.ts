@@ -19,13 +19,13 @@ export type ChallengeDocument = Document & ChallengeSchemaDb;
 @Schema({ timestamps: true })
 export class ChallengeSchemaDb implements Challenge {
   @Prop({ type: Date })
-  dateHoursChallenge: Date;
+  dateHourChallenge: Date;
 
   @Prop({ type: Date })
-  dateHoursRequest: Date;
+  dateHourRequest: Date;
 
   @Prop({ type: Date })
-  dateHoursResponse: Date;
+  dateHourResponse: Date;
 
   @Prop({
     type: String,

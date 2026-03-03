@@ -2,9 +2,9 @@ import { Player } from 'src/player/entities/Player.entitie';
 import { ChallengeStatus } from '../enums/challenge-status.enum';
 
 export class Challenge {
-  dateHoursChallenge: Date;
-  dateHoursRequest: Date;
-  dateHoursResponse: Date;
+  dateHourChallenge: Date;
+  dateHourRequest: Date;
+  dateHourResponse: Date;
   status: ChallengeStatus;
   applicant: Player;
   category: string;

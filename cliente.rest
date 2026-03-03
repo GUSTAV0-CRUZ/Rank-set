@@ -103,7 +103,7 @@ PATCH  {{baseUrl}}category/69a4e05f0df7930a195985da/addPlayer
 Content-Type: application/json
 
 {
-  "addPlayers": ["69a1a8f29fda1c56f912a825", "69a45d44f8f5fdc6cefa39d1"]
+  "addPlayers": ["69a1a8f29fda1c56f912a825", "69a45d44f8f5fdc6cefa39d1", "69a1a8f29fda1c56f912a825"]
 }
 
 ###
@@ -114,4 +114,38 @@ Content-Type: application/json
 {
   "removePlayers": ["69a45d44f8f5fdc6cefa39d1"]
 }
+
+### challenge
+
+# @name ChallengeGetAll
+GET {{baseUrl}}challenge
+?limit=10
+&offset=0
+
+###
+# @name ChallengeGetOne
+GET {{baseUrl}}challenge/69a1a9189fda1c56f912a828d
+
+###
+# @name ChallengePost
+POST {{baseUrl}}challenge
+Content-Type: application/json
+
+{
+  "dateHourChallenge": "2026-03-20T07:30:00",
+  "applicant": "69a1a8f29fda1c56f912a825",
+  "players": ["69a1a8f29fda1c56f912a825", "69a6f7a2f38dbedaa8bc29c5"]
+}
+
+###
+# @name ChallengePatch
+PATCH  {{baseUrl}}challenge/69a45f627629b7556f0d5ed6
+Content-Type: application/json
+
+{
+  "name": "test updated"
+}
+###
+# @name ChallengeDelete
+DELETE  {{baseUrl}}challenge/69a1b7ebe38a2c3bfabd7999
 

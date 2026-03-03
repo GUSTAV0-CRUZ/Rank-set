@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { AnyBulkWriteOperation, Model } from 'mongoose';
+import { AnyBulkWriteOperation, Model, Types } from 'mongoose';
 import { CategoryDocument } from '../schemas/category.schema';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
 import { AddPlayerDto } from '../dto/add-player.dto';
 import { RemovePlayerDto } from '../dto/remove-player.dto';
+import { Player } from 'src/player/entities/Player.entitie';
 
 @Injectable()
 export class CategoryRepository {
@@ -84,5 +85,12 @@ export class CategoryRepository {
 
   delete(id: string) {
     return this.categoryModel.findByIdAndDelete(id).exec();
+  }
+
+  findCategoryContainPlayerId(id: string) {
+    const idSearch: unknown = new Types.ObjectId(id);
+    return this.categoryModel.findOne({
+      players: { $in: [idSearch as Player] },
+    });
   }
 }
