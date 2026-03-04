@@ -154,5 +154,5 @@ Content-Type: application/json
 
 ###
 # @name ChallengeDelete
-DELETE  {{baseUrl}}challenge/69a1b7ebe38a2c3bfabd7999
+DELETE  {{baseUrl}}challenge/69a851c3ace9c0a64fd80d86
 

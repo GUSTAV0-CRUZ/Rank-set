@@ -125,12 +125,30 @@ export class ChallengeService {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (error.status === 404)
         throw new NotFoundException('Challenge not found');
+
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       throw new BadRequestException(error.message);
     }
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} challenge`;
+  async remove(id: string): Promise<Challenge> {
+    try {
+      const challenge = await this.challengeRepository.delete(id);
+
+      if (!challenge) throw new NotFoundException();
+
+      return challenge;
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.status === 404)
+        throw new NotFoundException('Challenge not found');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      throw new BadRequestException(error.message);
+    }
   }
 }
