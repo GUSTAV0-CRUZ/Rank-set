@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { ChallengeDocument } from '../schema/challenge.schema';
 import { CreateChallengeDto } from '../dto/create-challenge.dto';
 import { UpdateChallengeDto } from '../dto/update-challenge.dto';
+import { Player } from 'src/player/entities/Player.entitie';
 
 @Injectable()
 export class ChallengeRepository {
@@ -17,6 +18,11 @@ export class ChallengeRepository {
   }
 
   findOneId(id: string) {
+    const idSeach: unknown = id;
+    return this.challengeModel.find({ players: idSeach as Player }).exec();
+  }
+
+  findChallengesByIdPlayer(id: string) {
     return this.challengeModel.findById(id).exec();
   }
 

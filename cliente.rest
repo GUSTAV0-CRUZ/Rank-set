@@ -61,6 +61,7 @@ Content-Type: application/json
   "events": [
     {
       "name": "Event one",
+      "operation": "any operation",
       "value": 50
     },
     {
@@ -74,7 +75,7 @@ Content-Type: application/json
 
 ###
 # @name CategoryPatch
-PATCH  {{baseUrl}}category/69a4e05f0df7930a195985da
+PATCH  {{baseUrl}}category/69a830505a486b90d0346b63
 Content-Type: application/json
 
 {
@@ -95,11 +96,11 @@ Content-Type: application/json
 }
 ###
 # @name CategoryDelete
-DELETE  {{baseUrl}}category/69a45d44f8f5fdc6cefa39db
+DELETE  {{baseUrl}}category/69a830505a486b90d0346b63
 
 ###
 # @name AddPlayer
-PATCH  {{baseUrl}}category/69a4e05f0df7930a195985da/addPlayer
+PATCH  {{baseUrl}}category/69a830505a486b90d0346b63/addPlayer
 Content-Type: application/json
 
 {
@@ -124,7 +125,11 @@ GET {{baseUrl}}challenge
 
 ###
 # @name ChallengeGetOne
-GET {{baseUrl}}challenge/69a1a9189fda1c56f912a828d
+GET {{baseUrl}}challenge/69a830bd5a486b90d0346b70
+
+###
+# @name ChallengePlayerGetOne
+GET {{baseUrl}}challenge/player/69a1a8f29fda1c56f912a825
 
 ###
 # @name ChallengePost
