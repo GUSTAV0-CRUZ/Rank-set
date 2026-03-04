@@ -61,11 +61,11 @@ export class ChallengeService {
     return this.challengeRepository.findAll();
   }
 
-  async findOne(id: string): Promise<Challenge[]> {
+  async findOne(id: string): Promise<Challenge> {
     try {
       const challenge = await this.challengeRepository.findOneId(id);
 
-      if (!challenge) throw new NotFoundException('Challenge not found');
+      if (!challenge) throw new NotFoundException();
 
       return challenge;
     } catch (error) {
@@ -74,16 +74,20 @@ export class ChallengeService {
         throw new BadRequestException('Type of id invalid');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.status === 404)
+        throw new NotFoundException('Challenge not found');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       throw new BadRequestException(error.message);
     }
   }
 
-  async findChallengesByIdPlayer(id: string): Promise<Challenge> {
+  async findChallengesByIdPlayer(id: string): Promise<Challenge[]> {
     try {
       const challenge =
         await this.challengeRepository.findChallengesByIdPlayer(id);
 
-      if (!challenge) throw new NotFoundException('Challenge not found');
+      if (!challenge) throw new NotFoundException();
 
       return challenge;
     } catch (error) {
@@ -92,12 +96,38 @@ export class ChallengeService {
         throw new BadRequestException('Type of id invalid');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.status === 404)
+        throw new NotFoundException('Challenge not found');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       throw new BadRequestException(error.message);
     }
   }
 
-  update(id: string, updateChallengeDto: UpdateChallengeDto) {
-    return `This action updates a #${id} challenge dto ${updateChallengeDto.applicant?.name}`;
+  async update(
+    id: string,
+    updateChallengeDto: UpdateChallengeDto,
+  ): Promise<Challenge> {
+    try {
+      const challenge = await this.challengeRepository.update(
+        id,
+        updateChallengeDto,
+      );
+
+      if (!challenge) throw new NotFoundException();
+
+      return challenge;
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.status === 404)
+        throw new NotFoundException('Challenge not found');
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      throw new BadRequestException(error.message);
+    }
   }
 
   remove(id: string) {

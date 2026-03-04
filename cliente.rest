@@ -9,7 +9,7 @@ GET {{baseUrl}}player
 
 ###
 # @name PlayerGetOne
-GET {{baseUrl}}player/69a1a9189fda1c56f912a828d
+GET {{baseUrl}}player/69a1a8f29fda1c56f912a825
 
 ###
 # @name PlayerPost
@@ -125,7 +125,7 @@ GET {{baseUrl}}challenge
 
 ###
 # @name ChallengeGetOne
-GET {{baseUrl}}challenge/69a830bd5a486b90d0346b70
+GET {{baseUrl}}challenge/69a851a8ace9c0a64fd80d81
 
 ###
 # @name ChallengePlayerGetOne
@@ -144,12 +144,14 @@ Content-Type: application/json
 
 ###
 # @name ChallengePatch
-PATCH  {{baseUrl}}challenge/69a45f627629b7556f0d5ed6
+PATCH  {{baseUrl}}challenge/69a851a8ace9c0a64fd80d81
 Content-Type: application/json
 
 {
-  "name": "test updated"
+  "dateHourResponse": "2026-03-20T10:30:00",
+  "status": "ACCEPTED"
 }
+
 ###
 # @name ChallengeDelete
 DELETE  {{baseUrl}}challenge/69a1b7ebe38a2c3bfabd7999

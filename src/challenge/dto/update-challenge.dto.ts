@@ -1,4 +1,12 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateChallengeDto } from './create-challenge.dto';
+import { IsDateString, IsEnum, IsNotEmpty } from 'class-validator';
+import { UpdateChallengeStatus } from '../enums/update-challenge-status.enum';
 
-export class UpdateChallengeDto extends PartialType(CreateChallengeDto) {}
+export class UpdateChallengeDto {
+  @IsDateString()
+  @IsNotEmpty()
+  dateHourResponse: Date;
+
+  @IsNotEmpty()
+  @IsEnum(UpdateChallengeStatus)
+  status: UpdateChallengeStatus;
+}

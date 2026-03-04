@@ -18,12 +18,12 @@ export class ChallengeRepository {
   }
 
   findOneId(id: string) {
-    const idSeach: unknown = id;
-    return this.challengeModel.find({ players: idSeach as Player }).exec();
+    return this.challengeModel.findById(id).exec();
   }
 
   findChallengesByIdPlayer(id: string) {
-    return this.challengeModel.findById(id).exec();
+    const idSeach: unknown = id;
+    return this.challengeModel.find({ players: idSeach as Player }).exec();
   }
 
   create(createChallengeDto: CreateChallengeDto) {
