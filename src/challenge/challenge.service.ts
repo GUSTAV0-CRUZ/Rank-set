@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { ChallengeRepository } from './repository/challenge.repository';
 import { PlayerService } from 'src/player/player.service';
 import { CategoryService } from 'src/category/category.service';
 import { ChallengeStatus } from './enums/challenge-status.enum';
+import { Challenge } from './entities/challenge.entity';
 
 @Injectable()
 export class ChallengeService {
@@ -15,7 +20,7 @@ export class ChallengeService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async create(createChallengeDto: CreateChallengeDto) {
+  async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {
     try {
       const { players, applicant, dateHourChallenge } = createChallengeDto;
 
@@ -56,15 +61,28 @@ export class ChallengeService {
     return this.challengeRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} challenge`;
+  async findOne(id: string): Promise<Challenge> {
+    try {
+      const challenge = await this.challengeRepository.findOneId(id);
+
+      if (!challenge) throw new NotFoundException('Challenge not found');
+
+      return challenge;
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      throw new BadRequestException(error.message);
+    }
   }
 
-  update(id: number, updateChallengeDto: UpdateChallengeDto) {
+  update(id: string, updateChallengeDto: UpdateChallengeDto) {
     return `This action updates a #${id} challenge dto ${updateChallengeDto.applicant?.name}`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} challenge`;
   }
 }

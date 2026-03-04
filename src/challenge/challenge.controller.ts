@@ -27,7 +27,7 @@ export class ChallengeController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.challengeService.findOne(+id);
+    return this.challengeService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class ChallengeController {
     @Param('id') id: string,
     @Body() updateChallengeDto: UpdateChallengeDto,
   ) {
-    return this.challengeService.update(+id, updateChallengeDto);
+    return this.challengeService.update(id, updateChallengeDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.challengeService.remove(+id);
+    return this.challengeService.remove(id);
   }
 }
