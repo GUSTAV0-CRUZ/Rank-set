@@ -24,6 +24,7 @@ export class ChallengeService {
     try {
       const { players, applicant, dateHourChallenge } = createChallengeDto;
 
+      const idOApplicant: unknown = applicant;
       const idOne: unknown = players[0];
       const idTwo: unknown = players[1];
 
@@ -36,7 +37,7 @@ export class ChallengeService {
         );
 
       const category = await this.categoryService.findCategoryContainPlayerId(
-        idOne as string,
+        idOApplicant as string,
       );
 
       const challenge = {
