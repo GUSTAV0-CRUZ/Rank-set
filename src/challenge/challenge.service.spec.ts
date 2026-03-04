@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Test, TestingModule } from '@nestjs/testing';
@@ -24,6 +25,8 @@ describe('ChallengeService', () => {
           provide: ChallengeRepository,
           useValue: {
             create: jest.fn(),
+            findAll: jest.fn(),
+            findOneId: jest.fn(),
           },
         },
         {
@@ -87,7 +90,7 @@ describe('ChallengeService', () => {
       );
       expect(challengeRepository.create).toHaveBeenCalledWith({
         ...challengeCreate,
-        dateHourRequest: challenge.dateHourRequest,
+        dateHourRequest: expect.any(Date),
         status: challenge.status,
         category: category.name,
       });
@@ -111,6 +114,66 @@ describe('ChallengeService', () => {
     it('Should return the error "BadRequestException"', async () => {
       jest.spyOn(challengeRepository, 'create').mockRejectedValue(new Error());
       await expect(challengeService.create({} as any)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
+
+  describe('findAll', () => {
+    it('Should return array of Challenge', async () => {
+      const arrayChallenge = [createChallenge()];
+      jest
+        .spyOn(challengeRepository, 'findAll')
+        .mockResolvedValue(arrayChallenge as any);
+
+      const result = await challengeService.findAll();
+
+      expect(challengeRepository.findAll).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(arrayChallenge);
+    });
+  });
+
+  describe('findOne', () => {
+    it('Should return one challenge', async () => {
+      const id = 'idOfChallenge123';
+      const challenge = createChallenge();
+
+      jest
+        .spyOn(challengeRepository, 'findOneId')
+        .mockResolvedValue(challenge as any);
+
+      const result = await challengeService.findOne(id);
+
+      expect(challengeRepository.findOneId).toHaveBeenCalledWith(id);
+      expect(result).toEqual(challenge);
+    });
+
+    it('Should return the error "challenge not found"', async () => {
+      jest.spyOn(challengeRepository, 'findOneId').mockResolvedValue(null);
+      await expect(challengeService.findOne('1a2b3c')).rejects.toThrow(
+        'Challenge not found',
+      );
+    });
+
+    it('Should return the error "Type of id invalid"', async () => {
+      const errorImplementKey = new BadRequestException();
+      errorImplementKey['path'] = '_id';
+
+      jest
+        .spyOn(challengeRepository, 'findOneId')
+        .mockImplementationOnce(() => {
+          throw errorImplementKey;
+        });
+      await expect(challengeService.findOne('1a2b3c')).rejects.toThrow(
+        'Type of id invalid',
+      );
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest
+        .spyOn(challengeRepository, 'findOneId')
+        .mockRejectedValue(new Error());
+      await expect(challengeService.findOne('1a2b3c')).rejects.toThrow(
         BadRequestException,
       );
     });
