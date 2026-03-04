@@ -45,6 +45,6 @@ export class ChallengeController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.challengeService.remove(id);
+    return this.challengeService.delete(id);
   }
 }

@@ -132,7 +132,7 @@ export class ChallengeService {
     }
   }
 
-  async remove(id: string): Promise<Challenge> {
+  async delete(id: string): Promise<Challenge> {
     try {
       const challenge = await this.challengeRepository.delete(id);
 

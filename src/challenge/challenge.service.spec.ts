@@ -27,6 +27,7 @@ describe('ChallengeService', () => {
             create: jest.fn(),
             findAll: jest.fn(),
             findOneId: jest.fn(),
+            delete: jest.fn(),
           },
         },
         {
@@ -174,6 +175,47 @@ describe('ChallengeService', () => {
         .spyOn(challengeRepository, 'findOneId')
         .mockRejectedValue(new Error());
       await expect(challengeService.findOne('1a2b3c')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
+  describe('delete', () => {
+    it('Should return challenge deleted', async () => {
+      const challenge = createChallenge();
+      const id = '3672ihr23t6723y26';
+
+      jest
+        .spyOn(challengeRepository, 'delete')
+        .mockReturnValue(challenge as any);
+
+      const result = await challengeService.delete(id);
+
+      expect(challengeRepository.delete).toHaveBeenCalledWith(id);
+      expect(result).toEqual(challenge);
+    });
+
+    it('Should return the error "challenge not found"', async () => {
+      jest.spyOn(challengeRepository, 'delete').mockResolvedValue(null);
+      await expect(challengeService.delete('idTeste123')).rejects.toThrow(
+        'Challenge not found',
+      );
+    });
+
+    it('Should return the error "Type of id invalid"', async () => {
+      const errorImplementKey = new BadRequestException();
+      errorImplementKey['path'] = '_id';
+
+      jest.spyOn(challengeRepository, 'delete').mockImplementationOnce(() => {
+        throw errorImplementKey;
+      });
+      await expect(challengeService.delete('')).rejects.toThrow(
+        'Type of id invalid',
+      );
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest.spyOn(challengeRepository, 'delete').mockRejectedValue(new Error());
+      await expect(challengeService.delete('')).rejects.toThrow(
         BadRequestException,
       );
     });

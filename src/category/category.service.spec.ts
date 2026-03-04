@@ -90,15 +90,15 @@ describe('CategoryService', () => {
 
   describe('findAll', () => {
     it('Should return array of category', async () => {
-      const arraycategory = [createCategory()];
+      const arrayCategory = [createCategory()];
       jest
         .spyOn(categoryRepository, 'findAll')
-        .mockResolvedValue(arraycategory as any);
+        .mockResolvedValue(arrayCategory as any);
 
       const result = await categoryService.findAll();
 
       expect(categoryRepository.findAll).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(arraycategory);
+      expect(result).toEqual(arrayCategory);
     });
   });
 
@@ -145,6 +145,7 @@ describe('CategoryService', () => {
       );
     });
   });
+
   describe('update', () => {
     it('Should return category updated', async () => {
       const category = createCategory();
@@ -176,7 +177,7 @@ describe('CategoryService', () => {
     });
 
     it('Should return the error "Type of id invalid"', async () => {
-      const errorImplementKey = new NotFoundException();
+      const errorImplementKey = new BadRequestException();
       errorImplementKey['path'] = '_id';
 
       jest.spyOn(categoryRepository, 'update').mockImplementationOnce(() => {
@@ -216,7 +217,7 @@ describe('CategoryService', () => {
     });
 
     it('Should return the error "Type of id invalid"', async () => {
-      const errorImplementKey = new NotFoundException();
+      const errorImplementKey = new BadRequestException();
       errorImplementKey['path'] = '_id';
 
       jest.spyOn(categoryRepository, 'delete').mockImplementationOnce(() => {
