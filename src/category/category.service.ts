@@ -66,12 +66,15 @@ export class CategoryService {
         updateCategoryDto,
       );
 
-      if (!updatedCategory) throw new BadRequestException('Category not found');
+      if (!updatedCategory) throw new NotFoundException();
 
       return updatedCategory;
     } catch (error) {
       if (error.path === '_id')
         throw new BadRequestException('Type of id invalid');
+
+      if (error.status === 404)
+        throw new NotFoundException('Category not found');
 
       throw new BadRequestException(error.message);
     }
@@ -80,11 +83,14 @@ export class CategoryService {
   async delete(id: string): Promise<Category> {
     try {
       const deletedCategory = await this.categoryRepository.delete(id);
-      if (!deletedCategory) throw new BadRequestException('Category not found');
+      if (!deletedCategory) throw new NotFoundException();
       return deletedCategory;
     } catch (error) {
       if (error.path === '_id')
         throw new BadRequestException('Type of id invalid');
+
+      if (error.status === 404)
+        throw new NotFoundException('Category not found');
 
       throw new BadRequestException(error.message);
     }
@@ -97,12 +103,15 @@ export class CategoryService {
         addPlayerDto,
       );
 
-      if (!updatedCategory) throw new BadRequestException('Category not found');
+      if (!updatedCategory) throw new NotFoundException();
 
       return updatedCategory;
     } catch (error) {
       if (error.path === '_id')
         throw new BadRequestException('Type of id invalid');
+
+      if (error.status === 404)
+        throw new NotFoundException('Category not found');
 
       throw new BadRequestException(error.message);
     }
@@ -118,12 +127,15 @@ export class CategoryService {
         removePlayerDto,
       );
 
-      if (!updatedCategory) throw new BadRequestException('Category not found');
+      if (!updatedCategory) throw new NotFoundException();
 
       return updatedCategory;
     } catch (error) {
       if (error.path === '_id')
         throw new BadRequestException('Type of id invalid');
+
+      if (error.status === 404)
+        throw new NotFoundException('Category not found');
 
       throw new BadRequestException(error.message);
     }

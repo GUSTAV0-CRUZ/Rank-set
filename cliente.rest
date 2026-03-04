@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 ###
 # @name PlayerDelete
-DELETE  {{baseUrl}}player/69a1b7ebe38a2c3bfabd7999
+DELETE  {{baseUrl}}player/69a85a744d0fc1c392302f1c
 
 
 
