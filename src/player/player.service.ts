@@ -56,12 +56,14 @@ export class PlayerService {
         updatePlayerDto,
       );
 
-      if (!updatedPlayer) throw new BadRequestException('Player not found');
+      if (!updatedPlayer) throw new NotFoundException();
 
       return updatedPlayer;
     } catch (error) {
       if (error.path === '_id')
         throw new BadRequestException('Type of id invalid');
+
+      if (error.status === 404) throw new NotFoundException('Player not found');
 
       throw new BadRequestException(error.message);
     }
@@ -70,11 +72,13 @@ export class PlayerService {
   async delete(id: string): Promise<Player> {
     try {
       const deletedPlayer = await this.playerRepository.delete(id);
-      if (!deletedPlayer) throw new BadRequestException('Player not found');
+      if (!deletedPlayer) throw new NotFoundException();
       return deletedPlayer;
     } catch (error) {
       if (error.path === '_id')
         throw new BadRequestException('Type of id invalid');
+
+      if (error.status === 404) throw new NotFoundException('Player not found');
 
       throw new BadRequestException(error.message);
     }
