@@ -20,6 +20,8 @@ describe('MatchService', () => {
             create: jest.fn(),
             findAll: jest.fn(),
             findOneId: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
           },
         },
       ],
@@ -37,7 +39,7 @@ describe('MatchService', () => {
     it('Should return new match', async () => {
       const matchCreate = createMatch();
       const match = {
-        category: 'any Caategory',
+        match: 'any Caategory',
         players: ['idPlayerOne', 'idPlayerTwo'],
       };
 
@@ -113,6 +115,100 @@ describe('MatchService', () => {
     it('Should return the error "BadRequestException"', async () => {
       jest.spyOn(matchRepository, 'findOneId').mockRejectedValue(new Error());
       await expect(matchService.findOne('1a2b3c')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
+
+  describe('update', () => {
+    it('Should return match updated', async () => {
+      const match = createMatch();
+      const matchUpdated = {
+        result: [
+          {
+            set: 'player wins',
+          },
+        ],
+        def: 'IdPlayer',
+      };
+      const id = '3672ihr23t6723y26';
+
+      jest.spyOn(matchRepository, 'update').mockResolvedValue({
+        ...match,
+        ...matchUpdated,
+      } as any);
+
+      const result = await matchService.update(id, matchUpdated as any);
+
+      expect(matchRepository.update).toHaveBeenCalledWith(id, matchUpdated);
+      expect(result).toEqual({
+        ...match,
+        ...matchUpdated,
+      });
+    });
+
+    it('Should return the error "match not found"', async () => {
+      jest.spyOn(matchRepository, 'update').mockResolvedValue(null);
+      await expect(matchService.update('', {} as any)).rejects.toThrow(
+        'Match not found',
+      );
+    });
+
+    it('Should return the error "Type of id invalid"', async () => {
+      const errorImplementKey = new BadRequestException();
+      errorImplementKey['path'] = '_id';
+
+      jest.spyOn(matchRepository, 'update').mockImplementationOnce(() => {
+        throw errorImplementKey;
+      });
+      await expect(matchService.update('', {} as any)).rejects.toThrow(
+        'Type of id invalid',
+      );
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest.spyOn(matchRepository, 'update').mockRejectedValue(new Error());
+      await expect(matchService.update('', {} as any)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
+
+  describe('delete', () => {
+    it('Should return match deleted', async () => {
+      const match = createMatch();
+      const id = '3672ihr23t6723y26';
+
+      jest.spyOn(matchRepository, 'delete').mockReturnValue(match as any);
+
+      const result = await matchService.delete(id);
+
+      expect(matchRepository.delete).toHaveBeenCalledWith(id);
+      expect(result).toEqual(match);
+    });
+
+    it('Should return the error "match not found"', async () => {
+      jest.spyOn(matchRepository, 'delete').mockResolvedValue(null);
+      await expect(matchService.delete('idTeste123')).rejects.toThrow(
+        'Match not found',
+      );
+    });
+
+    it('Should return the error "Type of id invalid"', async () => {
+      const errorImplementKey = new BadRequestException();
+      errorImplementKey['path'] = '_id';
+
+      jest.spyOn(matchRepository, 'delete').mockImplementationOnce(() => {
+        throw errorImplementKey;
+      });
+      await expect(matchService.delete('')).rejects.toThrow(
+        'Type of id invalid',
+      );
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest.spyOn(matchRepository, 'delete').mockRejectedValue(new Error());
+      await expect(matchService.delete('')).rejects.toThrow(
         BadRequestException,
       );
     });

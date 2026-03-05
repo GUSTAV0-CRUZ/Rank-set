@@ -179,6 +179,7 @@ describe('ChallengeService', () => {
       );
     });
   });
+
   describe('delete', () => {
     it('Should return challenge deleted', async () => {
       const challenge = createChallenge();
