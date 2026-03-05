@@ -43,8 +43,25 @@ export class MatchService {
     }
   }
 
-  update(id: string, updateMatchDto: UpdateMatchDto) {
-    return `This action updates a #${id} match`;
+  async update(id: string, updateMatchDto: UpdateMatchDto): Promise<Match> {
+    try {
+      const match = await this.matchRepository.update(id, updateMatchDto);
+
+      if (!match) throw new NotFoundException();
+
+      return match;
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.status === 404)
+        throw new NotFoundException('Challenge not found');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      throw new BadRequestException(error.message);
+    }
   }
 
   remove(id: string) {

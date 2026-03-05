@@ -166,7 +166,7 @@ GET {{baseUrl}}match
 
 ###
 # @name MatchGetOne
-GET {{baseUrl}}match/69a851a8ace9c0a64fd80d81
+GET {{baseUrl}}match/69a99767a689f289aa0f25e7
 
 ###
 # @name MatchPost
@@ -180,12 +180,16 @@ Content-Type: application/json
 
 ###
 # @name MatchPatch
-PATCH  {{baseUrl}}match/69a851a8ace9c0a64fd80d81
+PATCH  {{baseUrl}}match/69a99767a689f289aa0f25e7
 Content-Type: application/json
 
 {
-  "dateHourResponse": "2026-03-20T10:30:00",
-  "status": "ACCEPTED"
+  "result": [
+    {
+    "set": "69a1a8f29fda1c56f912a825"
+    }
+  ],
+  "def": "69a1a8f29fda1c56f912a825"
 }
 
 ###
