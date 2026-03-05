@@ -19,6 +19,7 @@ describe('MatchService', () => {
           useValue: {
             create: jest.fn(),
             findAll: jest.fn(),
+            findOneId: jest.fn(),
           },
         },
       ],
@@ -74,6 +75,46 @@ describe('MatchService', () => {
 
       expect(matchRepository.findAll).toHaveBeenCalledTimes(1);
       expect(result).toEqual(arraymatch);
+    });
+  });
+
+  describe('findOne', () => {
+    it('Should return one match', async () => {
+      const id = 'idOfmatch123';
+      const match = createMatch();
+
+      jest.spyOn(matchRepository, 'findOneId').mockResolvedValue(match as any);
+
+      const result = await matchService.findOne(id);
+
+      expect(matchRepository.findOneId).toHaveBeenCalledWith(id);
+      expect(result).toEqual(match);
+    });
+
+    it('Should return the error "match not found"', async () => {
+      jest.spyOn(matchRepository, 'findOneId').mockResolvedValue(null);
+      await expect(matchService.findOne('1a2b3c')).rejects.toThrow(
+        'Match not found',
+      );
+    });
+
+    it('Should return the error "Type of id invalid"', async () => {
+      const errorImplementKey = new BadRequestException();
+      errorImplementKey['path'] = '_id';
+
+      jest.spyOn(matchRepository, 'findOneId').mockImplementationOnce(() => {
+        throw errorImplementKey;
+      });
+      await expect(matchService.findOne('1a2b3c')).rejects.toThrow(
+        'Type of id invalid',
+      );
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest.spyOn(matchRepository, 'findOneId').mockRejectedValue(new Error());
+      await expect(matchService.findOne('1a2b3c')).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 });
