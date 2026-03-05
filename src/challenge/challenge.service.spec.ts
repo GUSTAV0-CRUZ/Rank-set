@@ -10,6 +10,7 @@ import { createChallenge } from 'src/utils/challenge/create-challenge';
 import { createPlayer } from 'src/utils/player/create-player';
 import { createCategory } from 'src/utils/category/create-category';
 import { BadRequestException } from '@nestjs/common';
+import { UpdateChallengeStatus } from './enums/update-challenge-status.enum';
 
 describe('ChallengeService', () => {
   let challengeService: ChallengeService;
@@ -28,6 +29,7 @@ describe('ChallengeService', () => {
             findAll: jest.fn(),
             findOneId: jest.fn(),
             delete: jest.fn(),
+            update: jest.fn(),
           },
         },
         {
@@ -217,6 +219,59 @@ describe('ChallengeService', () => {
     it('Should return the error "BadRequestException"', async () => {
       jest.spyOn(challengeRepository, 'delete').mockRejectedValue(new Error());
       await expect(challengeService.delete('')).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
+
+  describe('update', () => {
+    it('Should return challenge updated', async () => {
+      const challenge = createChallenge();
+      const challengeUpdated = {
+        dateHourResponse: new Date(),
+        status: UpdateChallengeStatus.ACCEPTED,
+      };
+      const id = '3672ihr23t6723y26';
+
+      jest.spyOn(challengeRepository, 'update').mockResolvedValue({
+        ...challenge,
+        ...challengeUpdated,
+      } as any);
+
+      const result = await challengeService.update(id, challengeUpdated as any);
+
+      expect(challengeRepository.update).toHaveBeenCalledWith(
+        id,
+        challengeUpdated,
+      );
+      expect(result).toEqual({
+        ...challenge,
+        ...challengeUpdated,
+      });
+    });
+
+    it('Should return the error "challenge not found"', async () => {
+      jest.spyOn(challengeRepository, 'update').mockResolvedValue(null);
+      await expect(challengeService.update('', {} as any)).rejects.toThrow(
+        'Challenge not found',
+      );
+    });
+
+    it('Should return the error "Type of id invalid"', async () => {
+      const errorImplementKey = new BadRequestException();
+      errorImplementKey['path'] = '_id';
+
+      jest.spyOn(challengeRepository, 'update').mockImplementationOnce(() => {
+        throw errorImplementKey;
+      });
+      await expect(challengeService.update('', {} as any)).rejects.toThrow(
+        'Type of id invalid',
+      );
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest.spyOn(challengeRepository, 'update').mockRejectedValue(new Error());
+      await expect(challengeService.update('', {} as any)).rejects.toThrow(
         BadRequestException,
       );
     });
