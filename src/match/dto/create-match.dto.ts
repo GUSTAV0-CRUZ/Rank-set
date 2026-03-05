@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Result } from '../entities/match.entity';
+import { Player } from 'src/player/entities/Player.entitie';
 
 export class CreateMatchDto {
   @IsString()
@@ -11,10 +12,10 @@ export class CreateMatchDto {
   @IsOptional()
   @IsMongoId({ each: true })
   @Type(() => Array)
-  players: string[] | string;
+  players: Player[];
 
   @IsMongoId({ each: true })
-  def: string;
+  def: Player;
 
   @Type(() => Array<Result>)
   result: Result[];

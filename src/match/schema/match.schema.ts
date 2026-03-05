@@ -3,7 +3,7 @@ import { Match, Result } from 'src/match/entities/match.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
-export type ChallengeDocument = Document & MatchSubSchemaDb;
+export type MatchDocument = Document & MatchSubSchemaDb;
 
 @Schema({ timestamps: true })
 export class MatchSubSchemaDb implements Match {
