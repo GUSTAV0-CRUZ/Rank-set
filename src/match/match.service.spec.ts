@@ -1,18 +1,79 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Test, TestingModule } from '@nestjs/testing';
 import { MatchService } from './match.service';
+import { MatchRepository } from './repository/match.repository';
+import { createMatch } from 'src/utils/match/create-match';
+import { BadRequestException } from '@nestjs/common';
 
 describe('MatchService', () => {
-  let service: MatchService;
+  let matchService: MatchService;
+  let matchRepository: MatchRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MatchService],
+      providers: [
+        MatchService,
+        {
+          provide: MatchRepository,
+          useValue: {
+            create: jest.fn(),
+            findAll: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
-    service = module.get<MatchService>(MatchService);
+    matchService = module.get<MatchService>(MatchService);
+    matchRepository = module.get<MatchRepository>(MatchRepository);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(matchService).toBeDefined();
+  });
+
+  describe('create', () => {
+    it('Should return new match', async () => {
+      const matchCreate = createMatch();
+      const match = {
+        category: 'any Caategory',
+        players: ['idPlayerOne', 'idPlayerTwo'],
+      };
+
+      jest.spyOn(matchRepository, 'create').mockResolvedValue({
+        ...matchCreate,
+        ...match,
+      } as any);
+
+      const result = await matchService.create(matchCreate as any);
+      expect(matchRepository.create).toHaveBeenCalledWith({
+        ...matchCreate,
+      });
+      expect(result).toEqual({
+        ...matchCreate,
+        ...match,
+      });
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest.spyOn(matchRepository, 'create').mockRejectedValue(new Error());
+      await expect(matchService.create({} as any)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+  });
+
+  describe('findAll', () => {
+    it('Should return array of match', async () => {
+      const arraymatch = [createMatch()];
+      jest
+        .spyOn(matchRepository, 'findAll')
+        .mockResolvedValue(arraymatch as any);
+
+      const result = await matchService.findAll();
+
+      expect(matchRepository.findAll).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(arraymatch);
+    });
   });
 });
