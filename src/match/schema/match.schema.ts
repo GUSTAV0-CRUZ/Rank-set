@@ -1,0 +1,35 @@
+import { Player } from 'src/player/entities/Player.entitie';
+import { Match, Result } from 'src/match/entities/match.entity';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+
+export type ChallengeDocument = Document & MatchSubSchemaDb;
+
+@Schema({ timestamps: true })
+export class MatchSubSchemaDb implements Match {
+  @Prop({ type: String })
+  category: string;
+
+  @Prop([
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'players',
+    },
+  ])
+  players: Player[];
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'players',
+  })
+  def: Player;
+
+  @Prop([
+    {
+      set: { type: String },
+    },
+  ])
+  result: Result[];
+}
+
+export const MatchSubSchema = SchemaFactory.createForClass(MatchSubSchemaDb);

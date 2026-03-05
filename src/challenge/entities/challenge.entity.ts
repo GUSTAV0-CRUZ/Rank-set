@@ -1,5 +1,6 @@
 import { Player } from 'src/player/entities/Player.entitie';
 import { ChallengeStatus } from '../enums/challenge-status.enum';
+import { Match } from 'src/match/entities/match.entity';
 
 export class Challenge {
   dateHourChallenge: Date;
@@ -10,15 +11,4 @@ export class Challenge {
   category: string;
   players: Player[];
   match: Match;
-}
-
-export class Match {
-  category: string;
-  players: Player[];
-  def: Player;
-  result: Result[];
-}
-
-export class Result {
-  set: string;
 }
