@@ -12,15 +12,15 @@ export class MatchService {
     return `This action returns all match`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} match`;
   }
 
-  update(id: number, updateMatchDto: UpdateMatchDto) {
+  update(id: string, updateMatchDto: UpdateMatchDto) {
     return `This action updates a #${id} match`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} match`;
   }
 }
