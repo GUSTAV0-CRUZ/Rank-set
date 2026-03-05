@@ -30,6 +30,7 @@ describe('ChallengeService', () => {
             findOneId: jest.fn(),
             delete: jest.fn(),
             update: jest.fn(),
+            findChallengesByIdPlayer: jest.fn(),
           },
         },
         {
@@ -274,6 +275,56 @@ describe('ChallengeService', () => {
       await expect(challengeService.update('', {} as any)).rejects.toThrow(
         BadRequestException,
       );
+    });
+  });
+
+  describe('findChallengesByIdPlayer', () => {
+    it('Should return one challenge', async () => {
+      const id = 'idOfPlayer123';
+      const challenge = createChallenge();
+
+      jest
+        .spyOn(challengeRepository, 'findChallengesByIdPlayer')
+        .mockResolvedValue(challenge as any);
+
+      const result = await challengeService.findChallengesByIdPlayer(id);
+
+      expect(challengeRepository.findChallengesByIdPlayer).toHaveBeenCalledWith(
+        id,
+      );
+      expect(result).toEqual(challenge);
+    });
+
+    it('Should return the error "challenge not found"', async () => {
+      jest
+        .spyOn(challengeRepository, 'findChallengesByIdPlayer')
+        .mockResolvedValue(null as any);
+      await expect(
+        challengeService.findChallengesByIdPlayer('1a2b3c'),
+      ).rejects.toThrow('Challenge not found');
+    });
+
+    it('Should return the error "Type of id invalid"', async () => {
+      const errorImplementKey = new BadRequestException();
+      errorImplementKey['path'] = '_id';
+
+      jest
+        .spyOn(challengeRepository, 'findChallengesByIdPlayer')
+        .mockImplementationOnce(() => {
+          throw errorImplementKey;
+        });
+      await expect(
+        challengeService.findChallengesByIdPlayer('1a2b3c'),
+      ).rejects.toThrow('Type of id invalid');
+    });
+
+    it('Should return the error "BadRequestException"', async () => {
+      jest
+        .spyOn(challengeRepository, 'findChallengesByIdPlayer')
+        .mockRejectedValue(new Error());
+      await expect(
+        challengeService.findChallengesByIdPlayer('1a2b3c'),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 });
