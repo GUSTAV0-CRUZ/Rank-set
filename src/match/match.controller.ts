@@ -36,7 +36,7 @@ export class MatchController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.matchService.remove(id);
+  delete(@Param('id') id: string) {
+    return this.matchService.delete(id);
   }
 }

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMatchDto } from './dto/create-match.dto';
 import { UpdateMatchDto } from './dto/update-match.dto';
 import { MatchRepository } from './repository/match.repository';
@@ -35,8 +39,7 @@ export class MatchService {
         throw new BadRequestException('Type of id invalid');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (error.status === 404)
-        throw new NotFoundException('Challenge not found');
+      if (error.status === 404) throw new NotFoundException('Match not found');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       throw new BadRequestException(error.message);
@@ -56,15 +59,30 @@ export class MatchService {
         throw new BadRequestException('Type of id invalid');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (error.status === 404)
-        throw new NotFoundException('Challenge not found');
+      if (error.status === 404) throw new NotFoundException('Match not found');
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       throw new BadRequestException(error.message);
     }
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} match`;
+  async delete(id: string): Promise<Match> {
+    try {
+      const match = await this.matchRepository.delete(id);
+
+      if (!match) throw new NotFoundException();
+
+      return match;
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.status === 404) throw new NotFoundException('Match not found');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      throw new BadRequestException(error.message);
+    }
   }
 }
