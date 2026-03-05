@@ -3,10 +3,10 @@ import { Match, Result } from 'src/match/entities/match.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 
-export type MatchDocument = Document & MatchSubSchemaDb;
+export type MatchDocument = Document & MatchSchemaDb;
 
 @Schema({ timestamps: true })
-export class MatchSubSchemaDb implements Match {
+export class MatchSchemaDb implements Match {
   @Prop({ type: String })
   category: string;
 
@@ -32,4 +32,4 @@ export class MatchSubSchemaDb implements Match {
   result: Result[];
 }
 
-export const MatchSubSchema = SchemaFactory.createForClass(MatchSubSchemaDb);
+export const MatchSchema = SchemaFactory.createForClass(MatchSchemaDb);

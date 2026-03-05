@@ -156,3 +156,39 @@ Content-Type: application/json
 # @name ChallengeDelete
 DELETE  {{baseUrl}}challenge/69a851c3ace9c0a64fd80d86
 
+
+### Match
+
+# @name MatchGetAll
+GET {{baseUrl}}match
+?limit=10
+&offset=0
+
+###
+# @name MatchGetOne
+GET {{baseUrl}}match/69a851a8ace9c0a64fd80d81
+
+###
+# @name MatchPost
+POST {{baseUrl}}match
+Content-Type: application/json
+
+{
+  "category": "any Caategory",
+  "players": ["69a1a8f29fda1c56f912a825", "69a6f7a2f38dbedaa8bc29c5"]
+}
+
+###
+# @name MatchPatch
+PATCH  {{baseUrl}}match/69a851a8ace9c0a64fd80d81
+Content-Type: application/json
+
+{
+  "dateHourResponse": "2026-03-20T10:30:00",
+  "status": "ACCEPTED"
+}
+
+###
+# @name MatchDelete
+DELETE  {{baseUrl}}match/69a851c3ace9c0a64fd80d86
+

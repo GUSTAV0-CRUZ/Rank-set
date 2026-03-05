@@ -1,11 +1,20 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateMatchDto } from './dto/create-match.dto';
 import { UpdateMatchDto } from './dto/update-match.dto';
+import { MatchRepository } from './repository/match.repository';
 
 @Injectable()
 export class MatchService {
-  create(createMatchDto: CreateMatchDto) {
-    return 'This action adds a new match';
+  constructor(private readonly matchRepository: MatchRepository) {}
+
+  async create(createMatchDto: CreateMatchDto) {
+    try {
+      const match = await this.matchRepository.create(createMatchDto);
+      return match;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   findAll() {

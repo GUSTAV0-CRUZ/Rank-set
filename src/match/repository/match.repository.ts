@@ -8,7 +8,7 @@ import { MatchDocument } from '../schema/match.schema';
 @Injectable()
 export class MatchRepository {
   constructor(
-    @InjectModel('match')
+    @InjectModel('Match')
     private matchModel: Model<MatchDocument>,
   ) {}
 
