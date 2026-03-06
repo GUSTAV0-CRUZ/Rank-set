@@ -1,15 +1,4 @@
-import { Type } from 'class-transformer';
-import { ArrayMinSize, IsArray, IsMongoId, IsNotEmpty } from 'class-validator';
-import { Result } from '../entities/match.entity';
+import { PartialType } from '@nestjs/swagger';
+import { CreateMatchDto } from './create-match.dto';
 
-export class UpdateMatchDto {
-  @IsNotEmpty()
-  @IsMongoId({ each: true })
-  def: string;
-
-  @IsNotEmpty()
-  @IsArray()
-  @ArrayMinSize(1)
-  @Type(() => Array<Result>)
-  result: Result[];
-}
+export class UpdateMatchDto extends PartialType(CreateMatchDto) {}

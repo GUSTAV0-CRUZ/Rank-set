@@ -47,4 +47,9 @@ export class ChallengeController {
   remove(@Param('id') id: string) {
     return this.challengeService.delete(id);
   }
+
+  @Patch(':id/AddMatch')
+  AddMatch(@Param('id') id: string) {
+    return this.challengeService.AddMatch(id);
+  }
 }

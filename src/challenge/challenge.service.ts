@@ -152,4 +152,8 @@ export class ChallengeService {
       throw new BadRequestException(error.message);
     }
   }
+
+  AddMatch(id: string) {
+    return `addMacth: ${id}`;
+  }
 }

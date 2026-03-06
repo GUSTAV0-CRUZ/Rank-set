@@ -156,6 +156,15 @@ Content-Type: application/json
 # @name ChallengeDelete
 DELETE  {{baseUrl}}challenge/69a851c3ace9c0a64fd80d86
 
+###
+# @name ChallengeAddMatch
+PATCH  {{baseUrl}}challenge/69a851a8ace9c0a64fd80d81/AddMatch
+Content-Type: application/json
+
+{
+  "dateHourResponse": "2026-03-20T10:30:00",
+  "status": "ACCEPTED"
+}
 
 ### Match
 

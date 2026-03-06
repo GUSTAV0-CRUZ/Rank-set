@@ -22,5 +22,11 @@ import { CategoryModule } from 'src/category/category.module';
     PlayerService,
     CategoryService,
   ],
+  exports: [
+    ChallengeService,
+    ChallengeRepository,
+    PlayerService,
+    CategoryService,
+  ],
 })
 export class ChallengeModule {}
