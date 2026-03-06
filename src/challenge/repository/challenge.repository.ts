@@ -6,6 +6,7 @@ import { CreateChallengeDto } from '../dto/create-challenge.dto';
 import { UpdateChallengeDto } from '../dto/update-challenge.dto';
 import { Player } from 'src/player/entities/Player.entitie';
 import { ChallengeAddMatchRepositoryDto } from '../dto/challenge-addMatch-repository.dto';
+import { PaginationDto } from 'src/utils/pagination.dto';
 
 @Injectable()
 export class ChallengeRepository {
@@ -14,8 +15,14 @@ export class ChallengeRepository {
     private challengeModel: Model<ChallengeDocument>,
   ) {}
 
-  findAll() {
-    return this.challengeModel.find();
+  findAll(paginationDto: PaginationDto) {
+    return this.challengeModel
+      .find()
+      .skip(paginationDto.offset ?? 0)
+      .limit(paginationDto.limit ?? 10)
+      .populate('match')
+      .populate('players')
+      .exec();
   }
 
   findOneId(id: string) {

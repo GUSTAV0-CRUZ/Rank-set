@@ -42,7 +42,7 @@ describe('PlayerService', () => {
         .spyOn(playerRepository, 'findAll')
         .mockResolvedValue(arrayPlayer as any);
 
-      const result = await playerService.findAll();
+      const result = await playerService.findAll({});
 
       expect(playerRepository.findAll).toHaveBeenCalledTimes(1);
       expect(result).toEqual(arrayPlayer);

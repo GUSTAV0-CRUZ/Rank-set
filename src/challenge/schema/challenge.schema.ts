@@ -25,7 +25,7 @@ export class ChallengeSchemaDb implements Challenge {
   })
   status: ChallengeStatus;
 
-  @Prop({ type: mongoose.Schema.ObjectId, ref: 'player' })
+  @Prop({ type: mongoose.Schema.ObjectId, ref: 'Player' })
   applicant: Player;
 
   @Prop({ type: String })
@@ -34,7 +34,7 @@ export class ChallengeSchemaDb implements Challenge {
   @Prop([
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'player',
+      ref: 'Player',
     },
   ])
   players: Player[];

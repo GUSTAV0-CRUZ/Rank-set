@@ -4,7 +4,7 @@
 
 # @name PlayerGetAll
 GET {{baseUrl}}player
-?limit=1
+?limit=15
 &offset=0
 
 ###
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ###
 # @name PlayerPatch
-PATCH  {{baseUrl}}player/69a45f627629b7556f0d5ed6
+PATCH  {{baseUrl}}player/69ab34d55a827cb4bdbe175e
 Content-Type: application/json
 
 {
@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 ###
 # @name PlayerDelete
-DELETE  {{baseUrl}}player/69a85a744d0fc1c392302f1c
+DELETE  {{baseUrl}}player/69ab34d55a827cb4bdbe175e
 
 
 
@@ -43,8 +43,6 @@ DELETE  {{baseUrl}}player/69a85a744d0fc1c392302f1c
 
 # @name CategoryGetAll
 GET {{baseUrl}}category
-?limit=10
-&offset=0
 
 ###
 # @name CategoryGetOne
@@ -56,7 +54,7 @@ POST {{baseUrl}}category
 Content-Type: application/json
 
 {
-  "name": "Category Test",
+  "name": "A",
   "description": "Medium category",
   "events": [
     {

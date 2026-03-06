@@ -13,6 +13,7 @@ import { ChallengeStatus } from './enums/challenge-status.enum';
 import { Challenge } from './entities/challenge.entity';
 import { MatchService } from 'src/match/match.service';
 import { CreateAddMatchDto } from './dto/create-addMatch.dto';
+import { PaginationDto } from 'src/utils/pagination.dto';
 
 @Injectable()
 export class ChallengeService {
@@ -61,8 +62,8 @@ export class ChallengeService {
     }
   }
 
-  findAll() {
-    return this.challengeRepository.findAll();
+  findAll(paginationDto: PaginationDto) {
+    return this.challengeRepository.findAll(paginationDto);
   }
 
   async findOne(id: string): Promise<Challenge> {

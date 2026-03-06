@@ -11,7 +11,7 @@ import { EventOfCategory } from '../entities/category.entity';
 export class CreateCategoryDto {
   @IsString()
   @IsNotEmpty()
-  @MinLength(3)
+  @MinLength(1)
   @MaxLength(150)
   name: string;
 
