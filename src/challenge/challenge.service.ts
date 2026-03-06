@@ -172,10 +172,10 @@ export class ChallengeService {
         challenge,
       });
 
-      const challengeUpdated = await this.challengeRepository.AddMatch(
-        id,
-        createMatch,
-      );
+      const challengeUpdated = await this.challengeRepository.AddMatch(id, {
+        match: createMatch,
+        status: ChallengeStatus.ACCOMPLISHED,
+      });
 
       if (!challengeUpdated) throw new BadRequestException();
 
