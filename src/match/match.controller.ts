@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { MatchService } from './match.service';
 import { CreateMatchDto } from './dto/create-match.dto';
 import { UpdateMatchDto } from './dto/update-match.dto';
+import { PaginationDto } from 'src/utils/pagination.dto';
 
 @Controller('api/v1/match')
 export class MatchController {
@@ -21,8 +23,8 @@ export class MatchController {
   }
 
   @Get()
-  findAll() {
-    return this.matchService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.matchService.findAll(paginationDto);
   }
 
   @Get(':id')

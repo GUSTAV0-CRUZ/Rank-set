@@ -7,6 +7,7 @@ import { CreateMatchDto } from './dto/create-match.dto';
 import { UpdateMatchDto } from './dto/update-match.dto';
 import { MatchRepository } from './repository/match.repository';
 import { Match } from './entities/match.entity';
+import { PaginationDto } from 'src/utils/pagination.dto';
 
 @Injectable()
 export class MatchService {
@@ -22,8 +23,8 @@ export class MatchService {
     }
   }
 
-  async findAll(): Promise<Match[]> {
-    return await this.matchRepository.findAll();
+  async findAll(pagination: PaginationDto): Promise<Match[]> {
+    return await this.matchRepository.findAll(pagination);
   }
 
   async findOne(id: string): Promise<Match> {

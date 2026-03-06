@@ -14,14 +14,14 @@ export class MatchSchemaDb implements Match {
   @Prop([
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'players',
+      ref: 'Player',
     },
   ])
   players: Player[];
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'players',
+    ref: 'Player',
   })
   def: Player;
 

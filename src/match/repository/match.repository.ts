@@ -4,6 +4,7 @@ import { UpdateMatchDto } from '../dto/update-match.dto';
 import { Model } from 'mongoose';
 import { MatchDocument } from '../schema/match.schema';
 import { CreateMatchDto } from '../dto/create-match.dto';
+import { PaginationDto } from 'src/utils/pagination.dto';
 
 @Injectable()
 export class MatchRepository {
@@ -12,8 +13,13 @@ export class MatchRepository {
     private matchModel: Model<MatchDocument>,
   ) {}
 
-  findAll() {
-    return this.matchModel.find().exec();
+  findAll(paginationDto: PaginationDto) {
+    return this.matchModel
+      .find()
+      .skip(paginationDto.offset ?? 0)
+      .limit(paginationDto.limit ?? 10)
+      .populate('players')
+      .exec();
   }
 
   findOneId(id: string) {

@@ -172,7 +172,7 @@ Content-Type: application/json
 
 # @name MatchGetAll
 GET {{baseUrl}}match
-?limit=10
+?limit=1
 &offset=0
 
 ###
