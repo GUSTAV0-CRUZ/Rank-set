@@ -4,7 +4,7 @@
 
 # @name PlayerGetAll
 GET {{baseUrl}}player
-?limit=10
+?limit=1
 &offset=0
 
 ###

@@ -4,6 +4,7 @@ import { UpdatePlayerDto } from '../dtos/update-player.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PlayerDocument } from '../schema/player.schema';
+import { PaginationDto } from 'src/utils/pagination.dto';
 
 @Injectable()
 export class PlayerRepository {
@@ -12,8 +13,12 @@ export class PlayerRepository {
     private playerModel: Model<PlayerDocument>,
   ) {}
 
-  findAll() {
-    return this.playerModel.find();
+  findAll(paginationDto: PaginationDto) {
+    return this.playerModel
+      .find()
+      .skip(paginationDto.offset ?? 0)
+      .limit(paginationDto.limit ?? 10)
+      .exec();
   }
 
   findOneId(id: string) {

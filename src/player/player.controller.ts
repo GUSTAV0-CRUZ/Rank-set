@@ -6,18 +6,20 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { UpdatePlayerDto } from './dtos/update-player.dto';
+import { PaginationDto } from 'src/utils/pagination.dto';
 
 @Controller('api/v1/player')
 export class PlayerController {
   constructor(private readonly playerService: PlayerService) {}
 
   @Get()
-  findAll() {
-    return this.playerService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.playerService.findAll(paginationDto);
   }
 
   @Get(':id')

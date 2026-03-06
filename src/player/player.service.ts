@@ -8,13 +8,14 @@ import { PlayerRepository } from './repository/player.repository';
 import { CreatePlayerDto } from './dtos/create-player.dto';
 import { UpdatePlayerDto } from './dtos/update-player.dto';
 import { Player } from './entities/Player.entitie';
+import { PaginationDto } from 'src/utils/pagination.dto';
 
 @Injectable()
 export class PlayerService {
   constructor(private readonly playerRepository: PlayerRepository) {}
 
-  async findAll(): Promise<Player[]> {
-    return await this.playerRepository.findAll();
+  async findAll(paginationDto: PaginationDto): Promise<Player[]> {
+    return await this.playerRepository.findAll(paginationDto);
   }
 
   async findOne(id: string): Promise<Player> {
