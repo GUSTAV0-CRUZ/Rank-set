@@ -12,6 +12,7 @@ import { CategoryService } from 'src/category/category.service';
 import { ChallengeStatus } from './enums/challenge-status.enum';
 import { Challenge } from './entities/challenge.entity';
 import { MatchService } from 'src/match/match.service';
+import { CreateAddMatchDto } from './dto/create-addMatch.dto';
 
 @Injectable()
 export class ChallengeService {
@@ -155,7 +156,40 @@ export class ChallengeService {
     }
   }
 
-  AddMatch(id: string) {
-    return `addMacth: ${id}`;
+  async AddMatch(
+    id: string,
+    createAddMatchDto: CreateAddMatchDto,
+  ): Promise<Challenge> {
+    try {
+      const challenge = await this.findOne(id);
+      const { category, players } = challenge;
+
+      const createMatch = await this.matchService.create({
+        category,
+        players,
+        def: createAddMatchDto.def,
+        result: createAddMatchDto.result,
+      });
+
+      const challengeUpdated = await this.challengeRepository.AddMatch(
+        id,
+        createMatch,
+      );
+
+      if (!challengeUpdated) throw new BadRequestException();
+
+      return challengeUpdated;
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.path === '_id')
+        throw new BadRequestException('Type of id invalid');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.status === 404)
+        throw new NotFoundException('Challenge not found');
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      throw new BadRequestException(error.message);
+    }
   }
 }

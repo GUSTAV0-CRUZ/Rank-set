@@ -5,6 +5,7 @@ import { ChallengeDocument } from '../schema/challenge.schema';
 import { CreateChallengeDto } from '../dto/create-challenge.dto';
 import { UpdateChallengeDto } from '../dto/update-challenge.dto';
 import { Player } from 'src/player/entities/Player.entitie';
+import { CreateAddMatchDto } from '../dto/create-addMatch.dto';
 
 @Injectable()
 export class ChallengeRepository {
@@ -18,7 +19,7 @@ export class ChallengeRepository {
   }
 
   findOneId(id: string) {
-    return this.challengeModel.findById(id).exec();
+    return this.challengeModel.findById(id).populate('match').exec();
   }
 
   findChallengesByIdPlayer(id: string) {
@@ -33,6 +34,17 @@ export class ChallengeRepository {
   update(id: string, updateChallengeDto: UpdateChallengeDto) {
     return this.challengeModel
       .findByIdAndUpdate(id, updateChallengeDto, { returnDocument: 'after' })
+      .exec();
+  }
+
+  AddMatch(id: string, createAddMatchDto: CreateAddMatchDto) {
+    return this.challengeModel
+      .findByIdAndUpdate(
+        id,
+        { match: createAddMatchDto },
+        { returnDocument: 'after' },
+      )
+      .populate('match')
       .exec();
   }
 

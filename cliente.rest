@@ -162,8 +162,12 @@ PATCH  {{baseUrl}}challenge/69a851a8ace9c0a64fd80d81/AddMatch
 Content-Type: application/json
 
 {
-  "dateHourResponse": "2026-03-20T10:30:00",
-  "status": "ACCEPTED"
+  "result": [
+    {
+    "set": "player one wins"
+    }
+  ],
+  "def": "69a1a8f29fda1c56f912a825"
 }
 
 ### Match

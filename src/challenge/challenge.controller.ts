@@ -10,6 +10,7 @@ import {
 import { ChallengeService } from './challenge.service';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
+import { CreateAddMatchDto } from './dto/create-addMatch.dto';
 
 @Controller('api/v1/challenge')
 export class ChallengeController {
@@ -49,7 +50,10 @@ export class ChallengeController {
   }
 
   @Patch(':id/AddMatch')
-  AddMatch(@Param('id') id: string) {
-    return this.challengeService.AddMatch(id);
+  AddMatch(
+    @Param('id') id: string,
+    @Body() createAddMatchDto: CreateAddMatchDto,
+  ) {
+    return this.challengeService.AddMatch(id, createAddMatchDto);
   }
 }

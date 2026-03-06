@@ -3,17 +3,7 @@ import { ChallengeStatus } from '../enums/challenge-status.enum';
 import { Challenge } from '../entities/challenge.entity';
 import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
-import { Match, Result } from 'src/match/entities/match.entity';
-
-@Schema({ timestamps: true })
-export class MatchSubSchemaDb implements Match {
-  category: string;
-  players: Player[];
-  def: Player;
-  result: Result[];
-}
-
-export const MatchSubSchema = SchemaFactory.createForClass(MatchSubSchemaDb);
+import { Match } from 'src/match/entities/match.entity';
 
 export type ChallengeDocument = Document & ChallengeSchemaDb;
 
@@ -35,7 +25,7 @@ export class ChallengeSchemaDb implements Challenge {
   })
   status: ChallengeStatus;
 
-  @Prop({ type: mongoose.Schema.ObjectId, ref: 'players' })
+  @Prop({ type: mongoose.Schema.ObjectId, ref: 'player' })
   applicant: Player;
 
   @Prop({ type: String })
@@ -44,12 +34,12 @@ export class ChallengeSchemaDb implements Challenge {
   @Prop([
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'players',
+      ref: 'player',
     },
   ])
   players: Player[];
 
-  @Prop({ type: mongoose.Schema.ObjectId, ref: 'matchs' })
+  @Prop({ type: mongoose.Schema.ObjectId, ref: 'Match' })
   match: Match;
 }
 export const ChallengeSchema = SchemaFactory.createForClass(ChallengeSchemaDb);
