@@ -37,7 +37,7 @@ export class ChallengeRepository {
       .exec();
   }
 
-  AddMatch(
+  addMatch(
     id: string,
     challengeAddMatchRepositoryDto: ChallengeAddMatchRepositoryDto,
   ) {

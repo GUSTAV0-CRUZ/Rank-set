@@ -35,7 +35,7 @@ describe('ChallengeService', () => {
             delete: jest.fn(),
             update: jest.fn(),
             findChallengesByIdPlayer: jest.fn(),
-            AddMatch: jest.fn(),
+            addMatch: jest.fn(),
           },
         },
         {
@@ -340,7 +340,7 @@ describe('ChallengeService', () => {
     });
   });
 
-  describe('AddMatch', () => {
+  describe('addMatch', () => {
     it('Should return challenge with match and status updatede', async () => {
       const id = 'IdOfChallenge123';
       const dto = {
@@ -356,13 +356,13 @@ describe('ChallengeService', () => {
 
       jest.spyOn(challengeService, 'findOne').mockResolvedValue(challenge);
       jest.spyOn(matchService, 'create').mockResolvedValue(match);
-      jest.spyOn(challengeRepository, 'AddMatch').mockResolvedValue({
+      jest.spyOn(challengeRepository, 'addMatch').mockResolvedValue({
         ...challenge,
         ...match,
         ...dto,
       } as any);
 
-      const result = await challengeService.AddMatch(id, dto as any);
+      const result = await challengeService.addMatch(id, dto as any);
 
       expect(challengeService.findOne).toHaveBeenCalledWith(id);
       expect(matchService.create).toHaveBeenCalledWith({
@@ -372,7 +372,7 @@ describe('ChallengeService', () => {
         result: dto.result,
         challenge,
       });
-      expect(challengeRepository.AddMatch).toHaveBeenCalledWith(id, {
+      expect(challengeRepository.addMatch).toHaveBeenCalledWith(id, {
         match,
         status: ChallengeStatus.ACCOMPLISHED,
       });
@@ -385,9 +385,9 @@ describe('ChallengeService', () => {
 
     it('Should return the error "BadRequestException"', async () => {
       jest
-        .spyOn(challengeRepository, 'AddMatch')
+        .spyOn(challengeRepository, 'addMatch')
         .mockRejectedValue(new Error());
-      await expect(challengeService.AddMatch('', {} as any)).rejects.toThrow(
+      await expect(challengeService.addMatch('', {} as any)).rejects.toThrow(
         BadRequestException,
       );
     });

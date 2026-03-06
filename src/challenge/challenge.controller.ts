@@ -54,6 +54,6 @@ export class ChallengeController {
     @Param('id') id: string,
     @Body() createAddMatchDto: CreateAddMatchDto,
   ) {
-    return this.challengeService.AddMatch(id, createAddMatchDto);
+    return this.challengeService.addMatch(id, createAddMatchDto);
   }
 }

@@ -156,7 +156,7 @@ export class ChallengeService {
     }
   }
 
-  async AddMatch(
+  async addMatch(
     id: string,
     createAddMatchDto: CreateAddMatchDto,
   ): Promise<Challenge> {
@@ -172,7 +172,7 @@ export class ChallengeService {
         challenge,
       });
 
-      const challengeUpdated = await this.challengeRepository.AddMatch(id, {
+      const challengeUpdated = await this.challengeRepository.addMatch(id, {
         match: createMatch,
         status: ChallengeStatus.ACCOMPLISHED,
       });
