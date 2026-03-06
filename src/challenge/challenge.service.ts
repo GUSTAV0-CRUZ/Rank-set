@@ -181,11 +181,6 @@ export class ChallengeService {
 
       return challengeUpdated;
     } catch (error) {
-      // console.log(error);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      if (error.path === '_id')
-        throw new BadRequestException('Type of id invalid');
-
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       throw new BadRequestException(error.message);
     }
