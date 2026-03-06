@@ -384,8 +384,10 @@ describe('ChallengeService', () => {
     });
 
     it('Should return the error "BadRequestException"', async () => {
-      jest.spyOn(challengeRepository, 'update').mockRejectedValue(new Error());
-      await expect(challengeService.update('', {} as any)).rejects.toThrow(
+      jest
+        .spyOn(challengeRepository, 'AddMatch')
+        .mockRejectedValue(new Error());
+      await expect(challengeService.AddMatch('', {} as any)).rejects.toThrow(
         BadRequestException,
       );
     });
