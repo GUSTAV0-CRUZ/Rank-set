@@ -183,8 +183,13 @@ POST {{baseUrl}}match
 Content-Type: application/json
 
 {
-  "category": "any Caategory",
-  "players": ["69a1a8f29fda1c56f912a825", "69a6f7a2f38dbedaa8bc29c5"]
+  "challengeId": "69a851a8ace9c0a64fd80d81",
+  "result": [
+    {
+    "set": "69a1a8f29fda1c56f912a825"
+    }
+  ],
+  "def": "69a1a8f29fda1c56f912a825"
 }
 
 ###

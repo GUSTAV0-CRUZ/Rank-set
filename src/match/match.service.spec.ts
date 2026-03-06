@@ -5,10 +5,13 @@ import { MatchService } from './match.service';
 import { MatchRepository } from './repository/match.repository';
 import { createMatch } from 'src/utils/match/create-match';
 import { BadRequestException } from '@nestjs/common';
+import { ChallengeService } from 'src/challenge/challenge.service';
+import { createChallenge } from 'src/utils/challenge/create-challenge';
 
 describe('MatchService', () => {
   let matchService: MatchService;
   let matchRepository: MatchRepository;
+  let challengeService: ChallengeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -24,11 +27,18 @@ describe('MatchService', () => {
             delete: jest.fn(),
           },
         },
+        {
+          provide: ChallengeService,
+          useValue: {
+            findOne: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     matchService = module.get<MatchService>(MatchService);
     matchRepository = module.get<MatchRepository>(MatchRepository);
+    challengeService = module.get<ChallengeService>(ChallengeService);
   });
 
   it('should be defined', () => {
@@ -38,27 +48,46 @@ describe('MatchService', () => {
   describe('create', () => {
     it('Should return new match', async () => {
       const matchCreate = createMatch();
-      const match = {
-        match: 'any Caategory',
-        players: ['idPlayerOne', 'idPlayerTwo'],
+      const matchDto = {
+        challengeId: '69a851a8ace9c0a64fd80d81',
+        result: [
+          {
+            set: '69a1a8f29fda1c56f912a825',
+          },
+        ],
+        def: '69a1a8f29fda1c56f912a825',
       };
+      const challenge = createChallenge(matchCreate);
+
+      jest
+        .spyOn(challengeService, 'findOne')
+        .mockResolvedValue(challenge as any);
 
       jest.spyOn(matchRepository, 'create').mockResolvedValue({
-        ...matchCreate,
-        ...match,
+        category: challenge.category,
+        players: challenge.players,
+        def: matchDto.def,
+        result: matchDto.result,
       } as any);
 
-      const result = await matchService.create(matchCreate as any);
+      const result = await matchService.create(matchDto as any);
+
       expect(matchRepository.create).toHaveBeenCalledWith({
-        ...matchCreate,
+        category: matchCreate.category,
+        players: matchCreate.players,
+        def: matchDto.def,
+        result: matchDto.result,
       });
       expect(result).toEqual({
-        ...matchCreate,
-        ...match,
+        category: challenge.category,
+        players: challenge.players,
+        def: matchDto.def,
+        result: matchDto.result,
       });
     });
 
     it('Should return the error "BadRequestException"', async () => {
+      jest.spyOn(challengeService, 'findOne').mockResolvedValue({} as any);
       jest.spyOn(matchRepository, 'create').mockRejectedValue(new Error());
       await expect(matchService.create({} as any)).rejects.toThrow(
         BadRequestException,
