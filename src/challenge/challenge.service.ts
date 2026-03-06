@@ -169,6 +169,7 @@ export class ChallengeService {
         players,
         def: createAddMatchDto.def,
         result: createAddMatchDto.result,
+        challenge,
       });
 
       const challengeUpdated = await this.challengeRepository.AddMatch(
