@@ -11,6 +11,7 @@ import { PlayerService } from 'src/player/player.service';
 import { CategoryService } from 'src/category/category.service';
 import { ChallengeStatus } from './enums/challenge-status.enum';
 import { Challenge } from './entities/challenge.entity';
+import { MatchService } from 'src/match/match.service';
 
 @Injectable()
 export class ChallengeService {
@@ -18,6 +19,7 @@ export class ChallengeService {
     private readonly challengeRepository: ChallengeRepository,
     private readonly playerService: PlayerService,
     private readonly categoryService: CategoryService,
+    private readonly matchService: MatchService,
   ) {}
 
   async create(createChallengeDto: CreateChallengeDto): Promise<Challenge> {

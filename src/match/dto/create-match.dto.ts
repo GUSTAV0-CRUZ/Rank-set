@@ -1,9 +1,28 @@
 import { Type } from 'class-transformer';
-import { ArrayMinSize, IsArray, IsMongoId, IsNotEmpty } from 'class-validator';
+import {
+  ArrayMaxSize,
+  ArrayMinSize,
+  IsArray,
+  IsMongoId,
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 import { Result } from '../entities/match.entity';
 import { Player } from 'src/player/entities/Player.entitie';
 
 export class CreateMatchDto {
+  @IsString()
+  @IsNotEmpty()
+  category: string;
+
+  @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(2)
+  @ArrayMaxSize(2)
+  @IsMongoId({ each: true })
+  @Type(() => Array)
+  players: Player[];
+
   @IsNotEmpty()
   @IsMongoId({ each: true })
   def: Player;
@@ -13,8 +32,4 @@ export class CreateMatchDto {
   @ArrayMinSize(1)
   @Type(() => Array<Result>)
   result: Result[];
-
-  @IsNotEmpty()
-  @IsMongoId({ each: true })
-  challengeId: string;
 }

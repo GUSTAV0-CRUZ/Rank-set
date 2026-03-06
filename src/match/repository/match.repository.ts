@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UpdateMatchDto } from '../dto/update-match.dto';
 import { Model } from 'mongoose';
 import { MatchDocument } from '../schema/match.schema';
-import { CreateMatchRepositoryDto } from '../dto/create-match-repository.dto';
+import { CreateMatchDto } from '../dto/create-match.dto';
 
 @Injectable()
 export class MatchRepository {
@@ -20,7 +20,7 @@ export class MatchRepository {
     return this.matchModel.findById(id).exec();
   }
 
-  create(creatematchDto: CreateMatchRepositoryDto) {
+  create(creatematchDto: CreateMatchDto) {
     return this.matchModel.create(creatematchDto);
   }
 

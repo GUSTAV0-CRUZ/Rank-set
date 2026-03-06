@@ -7,28 +7,14 @@ import { CreateMatchDto } from './dto/create-match.dto';
 import { UpdateMatchDto } from './dto/update-match.dto';
 import { MatchRepository } from './repository/match.repository';
 import { Match } from './entities/match.entity';
-import { ChallengeService } from 'src/challenge/challenge.service';
 
 @Injectable()
 export class MatchService {
-  constructor(
-    private readonly matchRepository: MatchRepository,
-    private readonly challengeService: ChallengeService,
-  ) {}
+  constructor(private readonly matchRepository: MatchRepository) {}
 
   async create(createMatchDto: CreateMatchDto): Promise<Match> {
-    const { challengeId, def, result } = createMatchDto;
-    const challenge = await this.challengeService.findOne(challengeId);
-
-    const { category, players } = challenge;
-
     try {
-      const match = await this.matchRepository.create({
-        category,
-        players,
-        def,
-        result,
-      });
+      const match = await this.matchRepository.create(createMatchDto);
       return match;
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

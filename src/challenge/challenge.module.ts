@@ -8,12 +8,15 @@ import { PlayerService } from 'src/player/player.service';
 import { PlayerModule } from 'src/player/player.module';
 import { CategoryService } from 'src/category/category.service';
 import { CategoryModule } from 'src/category/category.module';
+import { MatchService } from 'src/match/match.service';
+import { MatchModule } from 'src/match/match.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Challenge', schema: ChallengeSchema }]),
     PlayerModule,
     CategoryModule,
+    MatchModule,
   ],
   controllers: [ChallengeController],
   providers: [
@@ -21,6 +24,7 @@ import { CategoryModule } from 'src/category/category.module';
     ChallengeRepository,
     PlayerService,
     CategoryService,
+    MatchService,
   ],
   exports: [
     ChallengeService,
